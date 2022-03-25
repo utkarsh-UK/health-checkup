@@ -1,3 +1,4 @@
+import 'package:care_monitor/presentation/screens/medications/view.dart';
 import 'package:care_monitor/presentation/widgets/bottom_nav_bar.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,18 +8,20 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 5,
       child: Scaffold(
-        appBar: CustomTabbedAppBar(showHomeScreenBar: true),
-        bottomNavigationBar: BottomNavBar(),
-        body: TabBarView(children: [
-          Center(child: Text('Activities')),
-          Center(child: Text('Medications')),
-          Center(child: Text('Resources')),
-          Center(child: Text('Documents')),
-          Center(child: Text('Profile')),
-        ]),
+        appBar: const CustomTabbedAppBar(showHomeScreenBar: true),
+        bottomNavigationBar: const BottomNavBar(),
+        body: TabBarView(
+          children: [
+            MedicationsTab(),
+            const Center(child: Text('Medications')),
+            const Center(child: Text('Resources')),
+            const Center(child: Text('Documents')),
+            const Center(child: Text('Profile')),
+          ],
+        ),
       ),
     );
   }

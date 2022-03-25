@@ -16,6 +16,7 @@ dependencies:
 
   #state_mngt
   get: ^4.6.1
+  get_storage: ^2.0.3
 
   #architectural
   equatable: ^2.0.3

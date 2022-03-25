@@ -26,6 +26,41 @@ class DocumentModel extends Document {
           documentType: documentType,
         );
 
+  factory DocumentModel.fromJSON(Map<String, dynamic> json) => DocumentModel(
+        documentID: json['document_id'],
+        documentName: json['document_name'],
+        documentPath: json['document_path'],
+        documentType: json['document_type'],
+        documentSize: json['document_size'],
+        addedDate: DateTime.parse(json['added_date']),
+      );
+
+  DocumentModel copyWith({
+    String? documentID,
+    String? documentName,
+    String? documentPath,
+    String? documentType,
+    String? documentSize,
+    DateTime? addedDate,
+  }) =>
+      DocumentModel(
+        documentID: documentID ?? this.documentID,
+        documentName: documentName ?? this.documentName,
+        documentPath: documentPath ?? this.documentPath,
+        documentType: documentType ?? this.documentType,
+        documentSize: documentSize ?? this.documentSize,
+        addedDate: addedDate ?? this.addedDate,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'document_id': documentID,
+        'document_name': documentName,
+        'document_path': documentPath,
+        'document_type': documentType,
+        'document_size': documentSize,
+        'added_date': addedDate.toIso8601String(),
+      };
+
   @override
   List<Object?> get props => [documentID, documentName, documentPath];
 }
