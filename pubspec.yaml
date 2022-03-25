@@ -17,6 +17,10 @@ dependencies:
   #state_mngt
   get: ^4.6.1
 
+  #architectural
+  equatable: ^2.0.3
+  dartz: ^0.10.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

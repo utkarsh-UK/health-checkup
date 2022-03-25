@@ -86,6 +86,7 @@ class CustomTabbedAppBar extends StatelessWidget
                 Tab(text: 'Activities'),
                 Tab(text: 'Medications'),
                 Tab(text: 'Resources'),
+                Tab(text: 'Documents'),
                 Tab(text: 'Profile'),
               ],
             ),

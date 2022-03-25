@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: CustomTabbedAppBar(showHomeScreenBar: true),
         bottomNavigationBar: BottomNavBar(),
@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
           Center(child: Text('Activities')),
           Center(child: Text('Medications')),
           Center(child: Text('Resources')),
+          Center(child: Text('Documents')),
           Center(child: Text('Profile')),
         ]),
       ),
