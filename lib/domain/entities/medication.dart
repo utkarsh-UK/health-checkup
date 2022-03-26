@@ -17,6 +17,9 @@ class Medication extends Equatable {
   final String instructions;
   final String reason;
 
+  final DateTime dateAdded;
+  final DateTime dateUpdated;
+
   const Medication({
     required this.medicationID,
     required this.medicationName,
@@ -32,6 +35,8 @@ class Medication extends Equatable {
     required this.frequency,
     required this.instructions,
     required this.reason,
+    required this.dateAdded,
+    required this.dateUpdated,
   });
 
   @override

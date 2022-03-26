@@ -12,30 +12,33 @@ class RemoteDatasourceImpl extends RemoteDataSource {
   RemoteDatasourceImpl(this._service);
 
   List<MedicationModel> readMedications() {
-    try {
-      List<MedicationModel> medications = [];
-
+    // try {
+    List<MedicationModel> medications = [];
+    if (_service.read(Constants.storageKey).toString().isNotEmpty) {
       jsonDecode(_service.read(Constants.storageKey).toString())
           .forEach((med) => medications.add(MedicationModel.fromJSON(med)));
-
-      return medications;
-    } catch (e) {
-      throw Exception(e.toString());
     }
+
+    return medications;
+    // } catch (e) {
+    //   print(e);
+    //   throw Exception(e.toString());
+    // }
   }
 
   void writeMedications(List<MedicationModel> medications) {
-    try {
-      _service.write(Constants.storageKey, jsonEncode(medications));
-    } catch (e) {
-      throw Exception(e.toString());
-    }
+    // try {
+    _service.write(Constants.storageKey, jsonEncode(medications));
+    // } catch (e) {
+    //   print(e);
+    //   throw Exception(e.toString());
+    // }
   }
 
   @override
   Future<void> addMedication(MedicationModel medication) async {
-    try {
-      /* **** Network Call if API is implemented
+    // try {
+    /* **** Network Call if API is implemented
 
      final response = await http.post(
         BASE_URL + '/add-medication/:${medication.medicationID}',
@@ -48,16 +51,16 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       *** */
 
-      await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 400));
 
-      final medications = readMedications();
+    final medications = readMedications();
 
-      medications.add(medication);
-      writeMedications(medications);
-    } catch (e) {
-      // Loggers can be added here for analyzation.
-      throw ServerException(message: e.toString());
-    }
+    medications.add(medication);
+    writeMedications(medications);
+    // } catch (e) {
+    //   // Loggers can be added here for analyzation.
+    //   throw ServerException(message: e.toString());
+    // }
   }
 
   @override

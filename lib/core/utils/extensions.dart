@@ -11,3 +11,8 @@ extension PercentSized on double {
 extension ResponsiveText on double {
   double get sp => Get.width / 100 * (this / 3);
 }
+
+/// Returns responsive sp value for text sizes.
+extension Capitalization on String {
+  String get toTitleCase => replaceFirst(this[0], this[0].toUpperCase());
+}

@@ -4,13 +4,15 @@ import '../utils/extensions.dart';
 
 /// Defines app theme including text themes.
 class ApplicationTheme {
-  
   static ThemeData getAppThemeData() => ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primaryColor: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
         iconTheme: const IconThemeData(color: iconColor),
         appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: primaryTextColor,
+        ),
         textTheme: TextTheme(
           headline1: TextStyle(
             fontSize: 48.0.sp,
@@ -41,6 +43,12 @@ class ApplicationTheme {
             fontSize: 12.0.sp,
             fontWeight: FontWeight.w400,
             color: primaryTextColor,
+          ),
+          subtitle2: TextStyle(
+            fontSize: 12.0.sp,
+            fontWeight: FontWeight.w400,
+            color: bodyTextColor,
+            height: 1.5,
           ),
           bodyText1: TextStyle(
             fontSize: 22.0.sp,

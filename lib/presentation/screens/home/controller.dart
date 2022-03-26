@@ -27,41 +27,51 @@ class HomeController extends GetxController {
         _searchMedication = searchMedication,
         _fetchMedication = fetchMedication;
 
-  @override
-  void onReady() {
-    super.onReady();
+  final medications = <Medication>[].obs;
+  final errorMessage = "".obs;
+  final isMedAdded = false.obs;
 
-    _addMedication(
-      Params(
-        medication: Medication(
-          medicationID: DateTime.now().toIso8601String(),
-          medicationName: 'Cipla',
-          drugClass: 'Durg Class',
-          drugBrand: 'Brand',
-          drugCode: 'Code',
-          drugType: 'Type',
-          drugStrength: 'Strenht',
-          form: 'Form',
-          adminRoute: 'Route',
-          dose: 2,
-          doseHours: const ['8:00 PM'],
-          frequency: 2,
-          instructions: 'instructions',
-          reason: 'reason',
-        ),
-      ),
+  @override
+  void onInit() {
+    super.onInit();
+
+    getMedications();
+  }
+
+  void getMedications() async {
+    final failureOrList = await _fetchMedication(NoParams());
+
+    // Unfold the Either object to extract Failure or result.
+    failureOrList.fold(
+      (Failure fail) {
+        if (fail is ServerFailure) {
+          errorMessage.value = fail.message;
+        }
+      },
+      (medList) {
+        medications.assignAll(medList);
+      },
     );
   }
 
-  final medications = <Medication>[].obs;
+  void addMedication(Medication med) async {
+    final failureOrList = await _addMedication(
+      Params(medication: med),
+    );
 
-  void readMed() async {
-    final failureOrList = await _fetchMedication(NoParams());
-
+    // Unfold the Either object to extract Failure or result.
     failureOrList.fold(
-      (Failure fail) {},
-      (list) {
-        medications.assignAll(list);
+      (Failure fail) {
+        if (fail is ServerFailure) {
+          errorMessage.value = fail.message;
+          isMedAdded.value = false;
+          Get.snackbar('Error', 'Medication adding failed!');
+        }
+      },
+      (_) {
+        isMedAdded.value = true;
+        Get.snackbar('Success', 'You have successfully added the medication');
+        getMedications();
       },
     );
   }

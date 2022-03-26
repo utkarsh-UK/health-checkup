@@ -19,6 +19,9 @@ class MedicationModel extends Medication {
   final String instructions;
   final String reason;
 
+  final DateTime dateAdded;
+  final DateTime dateUpdated;
+
   const MedicationModel({
     required this.medicationID,
     required this.medicationName,
@@ -34,6 +37,8 @@ class MedicationModel extends Medication {
     required this.frequency,
     required this.instructions,
     required this.reason,
+    required this.dateAdded,
+    required this.dateUpdated,
   }) : super(
           medicationID: medicationID,
           medicationName: medicationName,
@@ -49,6 +54,8 @@ class MedicationModel extends Medication {
           frequency: frequency,
           instructions: instructions,
           reason: reason,
+          dateAdded: dateAdded,
+          dateUpdated: dateUpdated,
         );
 
   factory MedicationModel.fromJSON(Map<String, dynamic> json) =>
@@ -69,6 +76,10 @@ class MedicationModel extends Medication {
         frequency: num.parse('${json['frequency'] ?? '0'}').toInt(),
         instructions: json['instructions'],
         reason: json['reason'],
+        dateAdded: DateTime.parse(
+            json['date_added'] ?? DateTime.now().toIso8601String()),
+        dateUpdated: DateTime.parse(
+            json['date_updated'] ?? DateTime.now().toIso8601String()),
       );
 
   MedicationModel copyWith({
@@ -86,6 +97,8 @@ class MedicationModel extends Medication {
     int? frequency,
     String? instructions,
     String? reason,
+    DateTime? dateAdded,
+    DateTime? dateUpdated,
   }) =>
       MedicationModel(
         medicationID: medicationID ?? this.medicationID,
@@ -102,6 +115,8 @@ class MedicationModel extends Medication {
         frequency: frequency ?? this.frequency,
         instructions: instructions ?? this.instructions,
         reason: reason ?? this.reason,
+        dateAdded: dateAdded ?? this.dateAdded,
+        dateUpdated: dateUpdated ?? this.dateUpdated,
       );
 
   factory MedicationModel.copyFromMedication(Medication medication) =>
@@ -120,6 +135,8 @@ class MedicationModel extends Medication {
         frequency: medication.frequency,
         instructions: medication.instructions,
         reason: medication.reason,
+        dateAdded: medication.dateAdded,
+        dateUpdated: medication.dateUpdated,
       );
 
   Map<String, dynamic> toJson() => {
@@ -137,6 +154,8 @@ class MedicationModel extends Medication {
         'frequency': frequency,
         'instructions': instructions,
         'reason': reason,
+        'date_added': dateAdded.toIso8601String(),
+        'date_updated': dateUpdated.toIso8601String(),
       };
 
   @override

@@ -1,5 +1,9 @@
 import 'package:care_monitor/core/theme/colors.dart';
+import 'package:care_monitor/presentation/screens/home/controller.dart';
+import 'package:care_monitor/presentation/screens/medications/add/add_medication_binding.dart';
+import 'package:care_monitor/presentation/screens/medications/add/add_medication_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../core/utils/extensions.dart';
 
 /// Builds custom app bar for application
@@ -40,19 +44,21 @@ class CustomTabbedAppBar extends StatelessWidget
                 padding: EdgeInsets.all(2.0.wp),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        offset: const Offset(0, 2),
-                        blurRadius: 2.0,
-                        spreadRadius: 2.0,
-                      )
-                    ]),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      offset: const Offset(0, 2),
+                      blurRadius: 2.0,
+                      spreadRadius: 2.0,
+                    )
+                  ],
+                ),
                 child: const Icon(
                   Icons.arrow_back_ios,
                   size: 25,
+                  color: iconColor,
                 ),
               ),
             ),
@@ -60,7 +66,10 @@ class CustomTabbedAppBar extends StatelessWidget
           ? null
           : [
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () => Get.to(
+                  () => AddMedicationView(),
+                  binding: AddMedicationBinding(),
+                ),
                 label: Container(
                   padding: EdgeInsets.all(2.0.wp),
                   alignment: Alignment.center,
@@ -77,7 +86,7 @@ class CustomTabbedAppBar extends StatelessWidget
           ? null
           : TabBar(
               labelColor: primaryColor,
-              labelStyle: textTheme.headline6,
+              labelStyle: textTheme.headline5,
               unselectedLabelColor: secondaryTextColor,
               padding: EdgeInsets.only(top: 4.0.wp),
               isScrollable: true,

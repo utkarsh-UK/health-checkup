@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
         bottomNavigationBar: const BottomNavBar(),
         body: TabBarView(
           children: [
+            const Center(child: Text('Activities')),
             MedicationsTab(),
-            const Center(child: Text('Medications')),
             const Center(child: Text('Resources')),
             const Center(child: Text('Documents')),
             const Center(child: Text('Profile')),
