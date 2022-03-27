@@ -20,11 +20,36 @@ class AddMedicationController extends GetxController {
   final intructionsController = TextEditingController();
   final reasonController = TextEditingController();
 
+  final medication = Rx<Medication?>(null);
+  final noOfDoses = 1.obs;
+  final doseType = "".obs;
+  final frequencyPeriod = "".obs;
+  final firstMeridian = "AM".obs;
+  final secondMeridian = "AM".obs;
+  final thirdMeridian = "AM".obs;
+  final doseHours = <String>["00:00", "00:00", "00:00"].obs;
+
   @override
   void onInit() {
     super.onInit();
 
-    print("Controller initialized");
+    ever(
+      medication,
+      (Medication? med) {
+        nameController.text = med?.medicationName ?? "";
+        classController.text = med?.drugClass ?? "";
+        brandController.text = med?.drugBrand ?? "";
+        codeController.text = med?.drugCode ?? "";
+        typeController.text = med?.drugType ?? "";
+        strengthController.text = med?.drugStrength ?? "";
+        formController.text = med?.form ?? "";
+        routeController.text = med?.adminRoute ?? "";
+        doseController.text = '${med?.dose ?? ""}';
+        intructionsController.text = med?.instructions ?? "";
+        reasonController.text = med?.reason ?? "";
+      },
+      condition: () => medication.value != null,
+    );
   }
 
   @override
@@ -42,8 +67,6 @@ class AddMedicationController extends GetxController {
     doseController.dispose();
     intructionsController.dispose();
     reasonController.dispose();
-
-    print('Controllers disposed');
   }
 
   void clearControllers() {
@@ -68,9 +91,9 @@ class AddMedicationController extends GetxController {
     final String strength = strengthController.text.trim();
     final String form = formController.text.trim();
     final String route = routeController.text.trim();
-    final int dose = num.parse("2").toInt();
-    final List<String> doseHours = ['08:00 PM'];
-    final int frequency = 2;
+    final int dose = int.parse(doseController.text.trim());
+    final List<String> hours = doseHours;
+    final int frequency = noOfDoses.value;
     final String instructions = intructionsController.text.trim();
     final String reason = reasonController.text.trim();
 
@@ -94,5 +117,41 @@ class AddMedicationController extends GetxController {
     );
 
     _homeController.addMedication(med);
+  }
+
+  void setCurrentMedication(Medication? med) {
+    medication.value = med;
+  }
+
+  void setNoOfDoses(int value) {
+    noOfDoses.value = value;
+  }
+
+  void setDoseType(String value) {
+    doseType.value = '${doseController.text} ${doseType.value}';
+  }
+
+  void setFrequencyPeriod(String value) {
+    frequencyPeriod.value = value;
+  }
+
+  void setDoseHours(List<String> value) {
+    doseHours.value = value;
+  }
+
+  void setFirstMeridian(String value) {
+    firstMeridian.value = value;
+  }
+
+  void setSecondMeridian(String value) {
+    secondMeridian.value = value;
+  }
+
+  void setThirdMeridian(String value) {
+    thirdMeridian.value = value;
+  }
+
+  void addDoseHours(int index, String value) {
+    doseHours[index] = value;
   }
 }

@@ -24,16 +24,23 @@ class MedicationRepositoryImpl extends MedicationRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteMedication(String medicationID) {
-    // TODO: implement deleteMedication
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> deleteMedication(String medicationID) async {
+    try {
+      return Right(await _dataSource.deleteMedication(medicationID));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 
   @override
   Future<Either<Failure, bool>> editMedication(
-      String medicationID, Medication medication) {
-    // TODO: implement editMedication
-    throw UnimplementedError();
+      String medicationID, Medication medication) async {
+    try {
+      return Right(await _dataSource.editMedication(
+          medicationID, MedicationModel.copyFromMedication(medication)));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 
   @override
@@ -47,8 +54,11 @@ class MedicationRepositoryImpl extends MedicationRepository {
 
   @override
   Future<Either<Failure, List<Medication>>> searchMedication(
-      String medicationName) {
-    // TODO: implement searchMedication
-    throw UnimplementedError();
+      String medicationName) async {
+    try {
+      return Right(await _dataSource.searchMedication(medicationName));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
   }
 }

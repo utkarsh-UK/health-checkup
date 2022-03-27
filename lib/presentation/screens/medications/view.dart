@@ -20,28 +20,50 @@ class MedicationsTab extends StatelessWidget {
           ? Center(child: Text('Empty'))
           : ListView.builder(
               itemCount: homeController.medications.length,
-              itemBuilder: (_, index) => Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 4.0.wp,
-                  vertical: 2.0.wp,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  // border: expandedListItemState[index]
-                  //     ? Border.all(color: secondaryColor, width: 0.5.wp)
-                  //     : null,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.4),
-                      offset: const Offset(0, 1),
-                      blurRadius: 2.0,
-                      spreadRadius: 1.0,
-                    )
-                  ],
-                ),
-                child: ExpandableMedItem(homeController.medications[index]),
-              ),
+              itemBuilder: (_, index) =>
+                  MedItem(medication: homeController.medications[index]),
             ),
+    );
+  }
+}
+
+class MedItem extends StatefulWidget {
+  final Medication medication;
+
+  const MedItem({Key? key, required this.medication}) : super(key: key);
+
+  @override
+  State<MedItem> createState() => _MedItemState();
+}
+
+class _MedItemState extends State<MedItem> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 4.0.wp,
+        vertical: 2.0.wp,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: isExpanded
+            ? Border.all(color: secondaryColor, width: 0.5.wp)
+            : Border.all(color: Colors.transparent, width: 0.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.4),
+            offset: const Offset(0, 1),
+            blurRadius: 2.0,
+            spreadRadius: 1.0,
+          )
+        ],
+      ),
+      child: ExpandableMedItem(
+        widget.medication,
+        onExpandedChanged: (value) => setState(() => isExpanded = value),
+      ),
     );
   }
 }

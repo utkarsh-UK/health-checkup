@@ -1,24 +1,22 @@
-import '../../../../core/theme/colors.dart';
-import '../../../../core/utils/helpers.dart';
-import 'add_medication_controller.dart';
-import '../widgets/dose_dropdown_inputs.dart';
-import '../widgets/dropdown_fields.dart';
-import '../widgets/horizontal_text_fields.dart';
-import '../widgets/txt_input_dropdown.dart';
-import '../widgets/txt_input_field.dart';
-import '../../../widgets/tabbed_app_bar.dart';
+import 'package:care_monitor/core/theme/colors.dart';
+import 'package:care_monitor/core/utils/helpers.dart';
+import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/widgets/dose_dropdown_inputs.dart';
+import 'package:care_monitor/presentation/screens/medications/widgets/dropdown_fields.dart';
+import 'package:care_monitor/presentation/screens/medications/widgets/horizontal_text_fields.dart';
+import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_dropdown.dart';
+import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_field.dart';
+import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/extensions.dart';
 
-typedef OrdinalNumber = Function(int count);
-
-class AddMedicationView extends StatelessWidget {
+class EditMedicationView extends StatelessWidget {
   final AddMedicationController addMedicationController =
       Get.find<AddMedicationController>();
 
-  AddMedicationView({Key? key}) : super(key: key);
+  EditMedicationView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class AddMedicationView extends StatelessWidget {
     return Scaffold(
       appBar: CustomTabbedAppBar(
         showHomeScreenBar: false,
-        screenTitle: 'Add New Medication',
+        screenTitle: 'Edit New Medication',
         onBackPressed: Get.back,
         showTabBar: false,
       ),

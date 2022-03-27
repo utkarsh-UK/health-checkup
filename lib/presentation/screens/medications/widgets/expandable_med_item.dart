@@ -1,14 +1,23 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/utils/helpers.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
+import 'package:care_monitor/presentation/screens/medications/add/add_medication_binding.dart';
+import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/edit/edit_medication_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../../../core/utils/extensions.dart';
+import '../../../../../core/utils/extensions.dart';
 
 class ExpandableMedItem extends StatefulWidget {
   final Medication medication;
+  final Function(bool) onExpandedChanged;
 
-  const ExpandableMedItem(this.medication, {Key? key}) : super(key: key);
+  const ExpandableMedItem(
+    this.medication, {
+    Key? key,
+    required this.onExpandedChanged,
+  }) : super(key: key);
 
   @override
   _ExpandableMedItemState createState() => _ExpandableMedItemState();
@@ -31,7 +40,10 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
     final textTheme = Theme.of(context).textTheme;
 
     return ExpansionTile(
-      onExpansionChanged: (value) => setState(() => isExpanded = value),
+      onExpansionChanged: (value) {
+        setState(() => isExpanded = value);
+        widget.onExpandedChanged(value);
+      },
       leading: Container(
         padding: EdgeInsets.symmetric(
           vertical: 2.0.wp,
@@ -167,7 +179,17 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextButton.icon(
-              onPressed: null,
+              onPressed: () {
+                Get.to(
+                  () => EditMedicationView(),
+                  binding: AddMedicationBinding(),
+                );
+
+                Future.delayed(const Duration(milliseconds: 300), () {
+                  final controller = Get.find<AddMedicationController>();
+                  controller.setCurrentMedication(med);
+                });
+              },
               label: Container(
                 height: 10.0.wp,
                 padding: EdgeInsets.only(left: 4.0.wp),
