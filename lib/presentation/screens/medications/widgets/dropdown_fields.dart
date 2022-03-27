@@ -7,17 +7,21 @@ class DropdownFields extends StatelessWidget {
   final String title;
   final String leftDoseType;
   final String rightDoseType;
+  final String? selectedFirstDropdownOption;
+  final String? selectedSecondDropdownOption;
   final bool isDoseHoursSelector;
-  final Function(String?) onLeftDropSaved;
-  final Function(String?) onRightDropSaved;
+  final Function(String?) onLeftDropChanged;
+  final Function(String?) onRightDropChanged;
 
   const DropdownFields({
     Key? key,
     required this.title,
     required this.leftDoseType,
     required this.rightDoseType,
-    required this.onLeftDropSaved,
-    required this.onRightDropSaved,
+    required this.onLeftDropChanged,
+    required this.onRightDropChanged,
+    this.selectedFirstDropdownOption,
+    this.selectedSecondDropdownOption,
     this.isDoseHoursSelector = false,
   }) : super(key: key);
 
@@ -35,9 +39,10 @@ class DropdownFields extends StatelessWidget {
               SizedBox(height: 2.0.wp),
               DropdownItem(
                 dropDownMenuType: leftDoseType,
-                onDropdownChanged: (value) {},
                 isDoseHoursSelector: isDoseHoursSelector,
-                onSaved: onLeftDropSaved,
+                onDropdownChanged: onLeftDropChanged,
+                selectedOption: selectedFirstDropdownOption,
+                onSaved: (value) {},
               )
             ],
           ),
@@ -51,9 +56,10 @@ class DropdownFields extends StatelessWidget {
               SizedBox(height: 3.0.wp),
               DropdownItem(
                 dropDownMenuType: rightDoseType,
-                onDropdownChanged: (value) {},
+                onSaved: (value) {},
                 isDoseHoursSelector: isDoseHoursSelector,
-                onSaved: onRightDropSaved,
+                onDropdownChanged: onRightDropChanged,
+                selectedOption: selectedSecondDropdownOption,
               )
             ],
           ),

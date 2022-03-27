@@ -1,3 +1,5 @@
+import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
+
 import '../../../../core/theme/colors.dart';
 import '../../../../core/utils/helpers.dart';
 import 'add_medication_controller.dart';
@@ -120,25 +122,15 @@ class AddMedicationView extends StatelessWidget {
                     leftDoseType: 'frequency',
                     rightDoseType: 'frequency_day',
                     isDoseHoursSelector: true,
-                    onLeftDropSaved: (period) {},
-                    onRightDropSaved: (period) {
+                    onLeftDropChanged: (period) {
+                      final int freq = Helpers.fromFrequency(period!);
+                      addMedicationController.setNoOfDoses(freq);
+                    },
+                    onRightDropChanged: (period) {
                       addMedicationController.setFrequencyPeriod(period!);
                     },
                   ),
-                  DoseDropdownInput(
-                    title: 'Dosing Hours (First Dose)',
-                    doseType: 'dose_time',
-                    onChanged: (value) {
-                      addMedicationController.addDoseHours(0, value!);
-                    },
-                    onSaved: (value) {
-                      addMedicationController.addDoseHours(0, value!);
-                    },
-                    index: 1,
-                  ),
-                  Obx(() => addMedicationController.noOfDoses > 1
-                      ? Column(children: _getExtraDosesDropDown(textTheme))
-                      : const SizedBox.shrink()),
+                  Column(children: _getExtraDosesDropDown(textTheme)),
                   TxtInputField(
                     controller: addMedicationController.intructionsController,
                     title: 'Instructions',
@@ -165,49 +157,21 @@ class AddMedicationView extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      TextButton(
-                        onPressed: _onSave,
-                        style: TextButton.styleFrom(
-                          backgroundColor: primaryDarkColor,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6.0.wp,
-                            vertical: 4.0.wp,
-                          ),
-                        ),
-                        child: Text(
-                          'Save',
-                          style: textTheme.button!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0.sp,
-                          ),
-                        ),
+                      CustomOutlineButton(
+                        textColor: Colors.white,
+                        backgroundColor: primaryColor,
+                        buttonText: 'Save',
+                        onTap: _onSave,
                       ),
                       SizedBox(width: 6.0.wp),
-                      TextButton(
-                        onPressed: () {
+                      CustomOutlineButton(
+                        backgroundColor: Colors.white,
+                        textColor: primaryColor,
+                        buttonText: 'Cancel',
+                        onTap: () {
                           addMedicationController.clearControllers();
                           Get.back();
                         },
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.0.wp,
-                            vertical: 4.0.wp,
-                          ),
-                          side: BorderSide(
-                            color: Colors.grey.withOpacity(0.6),
-                            width: 1.2,
-                          ),
-                        ),
-                        child: Text(
-                          'Cancel',
-                          style: textTheme.button!.copyWith(
-                            color: primaryTextColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0.sp,
-                          ),
-                        ),
                       ),
                     ],
                   )
@@ -223,20 +187,19 @@ class AddMedicationView extends StatelessWidget {
   List<Widget> _getExtraDosesDropDown(TextTheme textTheme) {
     const OrdinalNumber = Helpers.getOrdinalNumbers;
 
-    return List<int>.generate(
-            addMedicationController.noOfDoses.value - 1, (_) => _)
+    return List<int>.generate(addMedicationController.noOfDoses.value, (_) => _)
         .map(
           (i) => DoseDropdownInput(
-            title: 'Dosing Hours (${OrdinalNumber(i + 1)} Dose)',
+            title: 'Dosing Hours (${OrdinalNumber(i)} Dose)',
             doseType: 'dose_time',
             isDoseHoursSelector: false,
             onChanged: (value) {
-              addMedicationController.addDoseHours(i + 1, value!);
+              addMedicationController.addDoseHours(i, value!);
             },
             onSaved: (value) {
-              addMedicationController.addDoseHours(i + 1, value!);
+              addMedicationController.addDoseHours(i, value!);
             },
-            index: i + 2,
+            index: i,
           ),
         )
         .toList();

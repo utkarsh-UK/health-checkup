@@ -10,12 +10,15 @@ class MedicationModel extends Medication {
   final String drugCode;
   final String drugType;
   final String drugStrength;
+  final String imagePath;
 
   final String form;
   final String adminRoute;
   final int dose;
   final List<String> doseHours;
+  final List<String> doseMeridians;
   final int frequency;
+  final String frequencyPeriod;
   final String instructions;
   final String reason;
 
@@ -30,11 +33,14 @@ class MedicationModel extends Medication {
     required this.drugCode,
     required this.drugType,
     required this.drugStrength,
+    required this.imagePath,
     required this.form,
     required this.adminRoute,
     required this.dose,
     required this.doseHours,
+    required this.doseMeridians,
     required this.frequency,
+    required this.frequencyPeriod,
     required this.instructions,
     required this.reason,
     required this.dateAdded,
@@ -47,11 +53,14 @@ class MedicationModel extends Medication {
           drugCode: drugCode,
           drugType: drugType,
           drugStrength: drugStrength,
+          imagePath: imagePath,
           form: form,
           adminRoute: adminRoute,
           dose: dose,
           doseHours: doseHours,
+          doseMeridians: doseMeridians,
           frequency: frequency,
+          frequencyPeriod: frequencyPeriod,
           instructions: instructions,
           reason: reason,
           dateAdded: dateAdded,
@@ -67,13 +76,18 @@ class MedicationModel extends Medication {
         drugCode: json['drug_code'],
         drugType: json['drug_type'],
         drugStrength: json['drug_strength'],
+        imagePath: json['image_path'],
         form: json['form'],
         adminRoute: json['admin_route'],
         dose: num.parse('${json['dose'] ?? '0'}').toInt(),
         doseHours: (json['dose_hours'] as List<dynamic>)
             .map<String>((s) => '$s')
             .toList(),
+        doseMeridians: (json['dose_meridians'] as List<dynamic>)
+            .map<String>((s) => '$s')
+            .toList(),
         frequency: num.parse('${json['frequency'] ?? '0'}').toInt(),
+        frequencyPeriod: json['frequency_period'],
         instructions: json['instructions'],
         reason: json['reason'],
         dateAdded: DateTime.parse(
@@ -90,12 +104,15 @@ class MedicationModel extends Medication {
     String? drugCode,
     String? drugType,
     String? drugStrength,
+    String? imagePath,
     String? form,
     String? adminRoute,
     int? dose,
     List<String>? doseHours,
+    List<String>? doseMeridians,
     int? frequency,
     String? instructions,
+    String? frequencyPeriod,
     String? reason,
     DateTime? dateAdded,
     DateTime? dateUpdated,
@@ -108,11 +125,14 @@ class MedicationModel extends Medication {
         drugCode: drugCode ?? this.drugCode,
         drugType: drugType ?? this.drugType,
         drugStrength: drugStrength ?? this.drugStrength,
+        imagePath: imagePath ?? this.imagePath,
         form: form ?? this.form,
         adminRoute: adminRoute ?? this.adminRoute,
         dose: dose ?? this.dose,
         doseHours: doseHours ?? this.doseHours,
+        doseMeridians: doseMeridians ?? this.doseMeridians,
         frequency: frequency ?? this.frequency,
+        frequencyPeriod: frequencyPeriod ?? this.frequencyPeriod,
         instructions: instructions ?? this.instructions,
         reason: reason ?? this.reason,
         dateAdded: dateAdded ?? this.dateAdded,
@@ -128,11 +148,14 @@ class MedicationModel extends Medication {
         drugCode: medication.drugCode,
         drugType: medication.drugType,
         drugStrength: medication.drugStrength,
+        imagePath: medication.imagePath,
         form: medication.form,
         adminRoute: medication.adminRoute,
         dose: medication.dose,
         doseHours: medication.doseHours,
+        doseMeridians: medication.doseMeridians,
         frequency: medication.frequency,
+        frequencyPeriod: medication.frequencyPeriod,
         instructions: medication.instructions,
         reason: medication.reason,
         dateAdded: medication.dateAdded,
@@ -147,11 +170,14 @@ class MedicationModel extends Medication {
         'drug_code': drugCode,
         'drug_type': drugType,
         'drug_strength': drugStrength,
+        'image_path': imagePath,
         'form': form,
         'admin_route': adminRoute,
         'dose': dose,
         'dose_hours': doseHours,
+        'dose_meridians': doseMeridians,
         'frequency': frequency,
+        'frequency_period': frequencyPeriod,
         'instructions': instructions,
         'reason': reason,
         'date_added': dateAdded.toIso8601String(),

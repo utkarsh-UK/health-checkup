@@ -6,6 +6,7 @@ import 'package:care_monitor/presentation/screens/medications/widgets/dropdown_f
 import 'package:care_monitor/presentation/screens/medications/widgets/horizontal_text_fields.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_dropdown.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_field.dart';
+import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class EditMedicationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    // print(addMedicationController.medication.value!.frequency);
 
     return Scaffold(
       appBar: CustomTabbedAppBar(
@@ -36,180 +38,159 @@ class EditMedicationView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 6.0.wp, horizontal: 6.0.wp),
             child: Form(
               key: addMedicationController.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TxtInputField(
-                    controller: addMedicationController.nameController,
-                    title: 'Medication name',
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      }
-                      return null;
-                    },
-                  ),
-                  TxtInputField(
-                    controller: addMedicationController.classController,
-                    title: 'Drug Class',
-                    backgroundColor: textBackgroundColor,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      }
-                      return null;
-                    },
-                  ),
-                  TxtInputField(
-                    controller: addMedicationController.brandController,
-                    title: 'Drug Brand',
-                    backgroundColor: textBackgroundColor,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      }
-                      return null;
-                    },
-                  ),
-                  TxtInputField(
-                    controller: addMedicationController.codeController,
-                    title: 'Drug Code (GCN)',
-                    backgroundColor: textBackgroundColor,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      } else if (!value.isNumericOnly) {
-                        return "Only digits are accepted";
-                      }
-
-                      return null;
-                    },
-                  ),
-                  HorizontalTextFields(
-                    leftTitle: 'Drug Type',
-                    rightTitle: 'Strength',
-                    leftInputController: addMedicationController.typeController,
-                    rightInputController:
-                        addMedicationController.strengthController,
-                    backgroundColor: textBackgroundColor,
-                  ),
-                  HorizontalTextFields(
-                    leftTitle: 'Form',
-                    rightTitle: 'Route of Administration',
-                    leftInputController: addMedicationController.formController,
-                    rightInputController:
-                        addMedicationController.routeController,
-                    backgroundColor: textBackgroundColor,
-                  ),
-                  TxtInputWithDropdown(
-                    title: 'Dose',
-                    doseType: 'dose_type',
-                    controller: addMedicationController.doseController,
-                    inputType: TextInputType.number,
-                    onChanged: (dose) {
-                      addMedicationController.setDoseType(dose!);
-                    },
-                    onSaved: (dose) {
-                      addMedicationController.setDoseType(dose!);
-                    },
-                  ),
-                  DropdownFields(
-                    title: 'Frequency',
-                    leftDoseType: 'frequency',
-                    rightDoseType: 'frequency_day',
-                    isDoseHoursSelector: true,
-                    onLeftDropSaved: (period) {},
-                    onRightDropSaved: (period) {
-                      addMedicationController.setFrequencyPeriod(period!);
-                    },
-                  ),
-                  DoseDropdownInput(
-                    title: 'Dosing Hours (First Dose)',
-                    doseType: 'dose_time',
-                    onChanged: (value) {
-                      addMedicationController.addDoseHours(0, value!);
-                    },
-                    onSaved: (value) {
-                      addMedicationController.addDoseHours(0, value!);
-                    },
-                    index: 1,
-                  ),
-                  Obx(() => addMedicationController.noOfDoses > 1
-                      ? Column(children: _getExtraDosesDropDown(textTheme))
-                      : const SizedBox.shrink()),
-                  TxtInputField(
-                    controller: addMedicationController.intructionsController,
-                    title: 'Instructions',
-                    capitalization: TextCapitalization.sentences,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      }
-
-                      return null;
-                    },
-                  ),
-                  TxtInputField(
-                    controller: addMedicationController.reasonController,
-                    title: 'Reason for Prescription:',
-                    capitalization: TextCapitalization.sentences,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "This field is required";
-                      }
-
-                      return null;
-                    },
-                  ),
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: _onSave,
-                        style: TextButton.styleFrom(
-                          backgroundColor: primaryDarkColor,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6.0.wp,
-                            vertical: 4.0.wp,
+              child: Obx(
+                () => addMedicationController.medication.value == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TxtInputField(
+                            controller: addMedicationController.nameController,
+                            title: 'Medication name',
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              }
+                              return null;
+                            },
                           ),
-                        ),
-                        child: Text(
-                          'Save',
-                          style: textTheme.button!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0.sp,
+                          TxtInputField(
+                            controller: addMedicationController.classController,
+                            title: 'Drug Class',
+                            backgroundColor: textBackgroundColor,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              }
+                              return null;
+                            },
                           ),
-                        ),
+                          TxtInputField(
+                            controller: addMedicationController.brandController,
+                            title: 'Drug Brand',
+                            backgroundColor: textBackgroundColor,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              }
+                              return null;
+                            },
+                          ),
+                          TxtInputField(
+                            controller: addMedicationController.codeController,
+                            title: 'Drug Code (GCN)',
+                            backgroundColor: textBackgroundColor,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              } else if (!value.isNumericOnly) {
+                                return "Only digits are accepted";
+                              }
+
+                              return null;
+                            },
+                          ),
+                          HorizontalTextFields(
+                            leftTitle: 'Drug Type',
+                            rightTitle: 'Strength',
+                            leftInputController:
+                                addMedicationController.typeController,
+                            rightInputController:
+                                addMedicationController.strengthController,
+                            backgroundColor: textBackgroundColor,
+                          ),
+                          HorizontalTextFields(
+                            leftTitle: 'Form',
+                            rightTitle: 'Route of Administration',
+                            leftInputController:
+                                addMedicationController.formController,
+                            rightInputController:
+                                addMedicationController.routeController,
+                            backgroundColor: textBackgroundColor,
+                          ),
+                          TxtInputWithDropdown(
+                            title: 'Dose',
+                            doseType: 'dose_type',
+                            controller: addMedicationController.doseController,
+                            inputType: TextInputType.number,
+                            // selectedDropdownOption: addMedicationController.doseController.text,
+                            onChanged: (dose) {
+                              addMedicationController.setDoseType(dose!);
+                            },
+                            onSaved: (dose) {
+                              addMedicationController.setDoseType(dose!);
+                            },
+                          ),
+                          DropdownFields(
+                            title: 'Frequency',
+                            leftDoseType: 'frequency',
+                            rightDoseType: 'frequency_day',
+                            isDoseHoursSelector: true,
+                            selectedSecondDropdownOption:
+                                addMedicationController
+                                    .medication.value!.frequencyPeriod,
+                            selectedFirstDropdownOption: Helpers.getFrequency(
+                              addMedicationController
+                                  .medication.value!.frequency,
+                            ).toUpperCase(),
+                            onLeftDropChanged: (period) {
+                              final int freq = Helpers.fromFrequency(period!);
+                              addMedicationController.setNoOfDoses(freq);
+                            },
+                            onRightDropChanged: (period) {
+                              addMedicationController
+                                  .setFrequencyPeriod(period!);
+                            },
+                          ),
+                          Column(children: _getExtraDosesDropDown(textTheme)),
+                          TxtInputField(
+                            controller:
+                                addMedicationController.intructionsController,
+                            title: 'Instructions',
+                            capitalization: TextCapitalization.sentences,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              }
+
+                              return null;
+                            },
+                          ),
+                          TxtInputField(
+                            controller:
+                                addMedicationController.reasonController,
+                            title: 'Reason for Prescription:',
+                            capitalization: TextCapitalization.sentences,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "This field is required";
+                              }
+
+                              return null;
+                            },
+                          ),
+                          Row(
+                            children: [
+                              CustomOutlineButton(
+                                textColor: Colors.white,
+                                backgroundColor: primaryColor,
+                                buttonText: 'Save',
+                                onTap: _onSave,
+                              ),
+                              SizedBox(width: 6.0.wp),
+                              CustomOutlineButton(
+                                backgroundColor: Colors.white,
+                                textColor: primaryColor,
+                                buttonText: 'Cancel',
+                                onTap: () {
+                                  addMedicationController.clearControllers();
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                      SizedBox(width: 6.0.wp),
-                      TextButton(
-                        onPressed: () {
-                          addMedicationController.clearControllers();
-                          Get.back();
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.0.wp,
-                            vertical: 4.0.wp,
-                          ),
-                          side: BorderSide(
-                            color: Colors.grey.withOpacity(0.6),
-                            width: 1.2,
-                          ),
-                        ),
-                        child: Text(
-                          'Cancel',
-                          style: textTheme.button!.copyWith(
-                            color: primaryTextColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0.sp,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
               ),
             ),
           ),
@@ -221,20 +202,24 @@ class EditMedicationView extends StatelessWidget {
   List<Widget> _getExtraDosesDropDown(TextTheme textTheme) {
     const OrdinalNumber = Helpers.getOrdinalNumbers;
 
-    return List<int>.generate(
-            addMedicationController.noOfDoses.value - 1, (_) => _)
+    return List<int>.generate(addMedicationController.noOfDoses.value, (_) => _)
         .map(
           (i) => DoseDropdownInput(
-            title: 'Dosing Hours (${OrdinalNumber(i + 1)} Dose)',
+            title: 'Dosing Hours (${OrdinalNumber(i)} Dose)',
             doseType: 'dose_time',
             isDoseHoursSelector: false,
+            selectedDropdownOption:
+                addMedicationController.medication.value!.doseHours[i],
             onChanged: (value) {
-              addMedicationController.addDoseHours(i + 1, value!);
+              addMedicationController.addDoseHours(i, value!);
             },
             onSaved: (value) {
-              addMedicationController.addDoseHours(i + 1, value!);
+              addMedicationController.addDoseHours(i, value!);
             },
-            index: i + 2,
+            index: i,
+            isAMSelected:
+                addMedicationController.medication.value!.doseMeridians[i] ==
+                    'AM',
           ),
         )
         .toList();
@@ -242,8 +227,8 @@ class EditMedicationView extends StatelessWidget {
 
   void _onSave() {
     if (addMedicationController.formKey.currentState!.validate()) {
-      // add medication to database
-      addMedicationController.addMedication();
+      // update medication to database
+      addMedicationController.updateMedication();
     }
   }
 }

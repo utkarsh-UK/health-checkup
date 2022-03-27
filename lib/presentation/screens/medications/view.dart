@@ -1,11 +1,9 @@
 import 'package:care_monitor/core/theme/colors.dart';
-import 'package:care_monitor/core/utils/helpers.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
 import 'package:care_monitor/presentation/screens/home/controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/expandable_med_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import '../../../core/utils/extensions.dart';
 
 class MedicationsTab extends StatelessWidget {
@@ -15,15 +13,54 @@ class MedicationsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => homeController.medications.isEmpty
-          ? Center(child: Text('Empty'))
-          : ListView.builder(
-              itemCount: homeController.medications.length,
-              itemBuilder: (_, index) =>
-                  MedItem(medication: homeController.medications[index]),
-            ),
-    );
+    final textTheme = Theme.of(context).textTheme;
+
+    return Obx(() {
+      if (homeController.medications.isEmpty) {
+        return const Center(child: Text('Empty'));
+      } else {
+
+        return SingleChildScrollView(
+          key: UniqueKey(),
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: homeController.categorizedMedications.keys
+                .toList()
+                .map<Widget>((period) => homeController.categorizedMedications[period]!.isEmpty
+                    ? const SizedBox.shrink()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 4.0.wp,
+                              top: 6.0.wp,
+                              bottom: 0.5.wp,
+                            ),
+                            child: Text(
+                              period,
+                              style: textTheme.bodyText2!.copyWith(
+                                fontSize: 12.0.sp,
+                              ),
+                            ),
+                          ),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: homeController.categorizedMedications[period]!.length,
+                            itemBuilder: (_, index) => MedItem(
+                              medication: homeController.categorizedMedications[period]![index],
+                              key: UniqueKey(),
+                            ),
+                          )
+                        ],
+                      ))
+                .toList(),
+          ),
+        );
+      }
+    });
   }
 }
 

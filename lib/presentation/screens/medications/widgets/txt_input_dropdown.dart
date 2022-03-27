@@ -13,6 +13,7 @@ class TxtInputWithDropdown extends StatelessWidget {
   final Function(String?) onChanged;
   final Function(String?) onSaved;
   final TextInputType inputType;
+  final String? selectedDropdownOption;
 
   const TxtInputWithDropdown({
     Key? key,
@@ -24,6 +25,7 @@ class TxtInputWithDropdown extends StatelessWidget {
     this.isDoseHoursSelector = false,
     this.backgroundColor = Colors.white,
     this.inputType = TextInputType.text,
+    this.selectedDropdownOption,
   }) : super(key: key);
 
   @override
@@ -53,6 +55,7 @@ class TxtInputWithDropdown extends StatelessWidget {
                 onDropdownChanged: onChanged,
                 isDoseHoursSelector: isDoseHoursSelector,
                 onSaved: onSaved,
+                selectedOption: selectedDropdownOption,
               )
             ],
           ),

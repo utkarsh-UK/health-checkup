@@ -1,5 +1,4 @@
 import 'package:care_monitor/core/theme/colors.dart';
-import 'package:care_monitor/presentation/screens/home/controller.dart';
 import 'package:care_monitor/presentation/screens/medications/add/add_medication_binding.dart';
 import 'package:care_monitor/presentation/screens/medications/add/add_medication_view.dart';
 import 'package:flutter/material.dart';

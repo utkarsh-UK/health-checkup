@@ -10,9 +10,11 @@ class DoseDropdownInput extends StatelessWidget {
   final String title;
   final String doseType;
   final bool isDoseHoursSelector;
+  final String? selectedDropdownOption;
   final Function(String?) onChanged;
   final Function(String?) onSaved;
   final int index;
+  final bool isAMSelected;
 
   const DoseDropdownInput({
     Key? key,
@@ -21,7 +23,9 @@ class DoseDropdownInput extends StatelessWidget {
     required this.onChanged,
     required this.onSaved,
     required this.index,
+    this.selectedDropdownOption,
     this.isDoseHoursSelector = false,
+    this.isAMSelected = true,
   }) : super(key: key);
 
   @override
@@ -42,6 +46,7 @@ class DoseDropdownInput extends StatelessWidget {
                 onDropdownChanged: onChanged,
                 isDoseHoursSelector: isDoseHoursSelector,
                 onSaved: onSaved,
+                selectedOption: selectedDropdownOption,
               )
             ],
           ),
@@ -53,9 +58,7 @@ class DoseDropdownInput extends StatelessWidget {
             children: [
               Text('', style: textTheme.subtitle2, softWrap: false),
               SizedBox(height: 3.0.wp),
-              MeridianSelector(
-                onTap: _setMeridian,
-              ),
+              MeridianSelector(onTap: _setMeridian, isAMSelected: isAMSelected),
             ],
           ),
         ),
@@ -65,13 +68,13 @@ class DoseDropdownInput extends StatelessWidget {
 
   void _setMeridian(String meridian) {
     switch (index) {
-      case 1:
+      case 0:
         Get.find<AddMedicationController>().setFirstMeridian(meridian);
         break;
-      case 2:
+      case 1:
         Get.find<AddMedicationController>().setSecondMeridian(meridian);
         break;
-      case 3:
+      case 2:
         Get.find<AddMedicationController>().setThirdMeridian(meridian);
         break;
       default:

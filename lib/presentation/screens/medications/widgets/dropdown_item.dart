@@ -28,6 +28,7 @@ final Map<String, List<String>> _dropDownMenus = {
 
 class DropdownItem extends StatefulWidget {
   final String dropDownMenuType;
+  final String? selectedOption;
   final bool isDoseHoursSelector;
   final Function(String?) onDropdownChanged;
   final Function(String?) onSaved;
@@ -35,6 +36,7 @@ class DropdownItem extends StatefulWidget {
   const DropdownItem({
     Key? key,
     required this.dropDownMenuType,
+    this.selectedOption,
     required this.isDoseHoursSelector,
     required this.onDropdownChanged,
     required this.onSaved,
@@ -57,7 +59,7 @@ class _DropdownItemState extends State<DropdownItem> {
     dropDownMenuType = widget.dropDownMenuType;
     onDropdownChanged = widget.onDropdownChanged;
 
-    selected = _dropDownMenus[dropDownMenuType]!.first;
+    selected = widget.selectedOption ?? _dropDownMenus[dropDownMenuType]!.first;
   }
 
   @override
@@ -73,7 +75,6 @@ class _DropdownItemState extends State<DropdownItem> {
         }
 
         setState(() => selected = value!);
-        print('On Changed Default Callback');
         widget.onDropdownChanged(value);
       },
       onSaved: widget.onSaved,

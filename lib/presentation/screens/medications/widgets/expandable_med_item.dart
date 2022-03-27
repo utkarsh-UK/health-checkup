@@ -1,6 +1,7 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/utils/helpers.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
+import 'package:care_monitor/presentation/screens/home/controller.dart';
 import 'package:care_monitor/presentation/screens/medications/add/add_medication_binding.dart';
 import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
 import 'package:care_monitor/presentation/screens/medications/edit/edit_medication_view.dart';
@@ -51,7 +52,7 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
         ),
         height: 20.0.wp,
         width: 20.0.wp,
-        child: const Placeholder(),
+        child: Image.asset(medication.imagePath, fit: BoxFit.cover),
       ),
       title: Padding(
         padding: EdgeInsets.only(bottom: 2.0.wp),
@@ -103,11 +104,12 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
                         ..._buildMedicineInfoText(
                             'Strength', med.drugStrength, textTheme),
                         ..._buildMedicineInfoText(
-                            'Dosing Hours', med.doseHours.first, textTheme),
+                            'Dosing Hours',
+                            '${med.doseHours.first} ${med.doseMeridians[0]}',
+                            textTheme),
                         ..._buildMedicineInfoText(
                             'Date Added',
-                            // DateFormat('d MMM yyyy').format(med.dateAdded),
-                            med.dateAdded.toIso8601String(),
+                            DateFormat('d MMM yyyy').format(med.dateAdded),
                             textTheme,
                             shouldAddBottomPadding: false),
                       ],
@@ -131,7 +133,7 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
                             'Dose: ', '${med.dose} Drops', textTheme),
                         ..._buildMedicineInfoText(
                             'Frequency',
-                            '${Helpers.getFrequency(med.frequency).toTitleCase} a Day',
+                            '${Helpers.getFrequency(med.frequency).toTitleCase} a ${med.frequencyPeriod}',
                             textTheme),
                         ..._buildMedicineInfoText(
                             'Last Updated',
@@ -149,11 +151,13 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
               'Instructions:',
               med.instructions,
               textTheme,
+              softWrap: true,
             ),
             ..._buildMedicineInfoText(
               'Reason for Prescription:',
               med.reason,
               textTheme,
+              softWrap: true,
             ),
           ],
         ),
@@ -211,7 +215,10 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
               ),
             ),
             TextButton(
-              onPressed: null,
+              onPressed: () {
+                final controller = Get.find<HomeController>();
+                controller.confirmDeletion(med.medicationID);
+              },
               child: Text(
                 'Delete',
                 style: textTheme.button!.copyWith(
@@ -228,10 +235,10 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
 
   List<Widget> _buildMedicineInfoText(
           String title, String data, TextTheme textTheme,
-          {bool shouldAddBottomPadding = true}) =>
+          {bool shouldAddBottomPadding = true, bool softWrap = false}) =>
       [
         RichText(
-          softWrap: false,
+          softWrap: softWrap,
           text: TextSpan(
             children: [
               TextSpan(

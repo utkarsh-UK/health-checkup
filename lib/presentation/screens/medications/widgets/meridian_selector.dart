@@ -4,15 +4,25 @@ import '../../../../core/utils/extensions.dart';
 
 class MeridianSelector extends StatefulWidget {
   final Function(String) onTap;
+  final bool isAMSelected;
 
-  const MeridianSelector({Key? key, required this.onTap}) : super(key: key);
+  const MeridianSelector(
+      {Key? key, required this.onTap, this.isAMSelected = true})
+      : super(key: key);
 
   @override
   _MeridianSelectorState createState() => _MeridianSelectorState();
 }
 
 class _MeridianSelectorState extends State<MeridianSelector> {
-  bool isAMSelected = true;
+  late bool isAMSelected;
+
+  @override
+  void initState() {
+    super.initState();
+
+    isAMSelected = widget.isAMSelected;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,7 @@ import 'package:care_monitor/domain/usecases/medication/delete_medication.dart';
 import 'package:care_monitor/domain/usecases/medication/edit_medication.dart';
 import 'package:care_monitor/domain/usecases/medication/fetch_medications.dart';
 import 'package:care_monitor/domain/usecases/medication/search_medication.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -27,6 +28,7 @@ class HomeController extends GetxController {
         _searchMedication = searchMedication,
         _fetchMedication = fetchMedication;
 
+  final categorizedMedications = <String, List<Medication>>{}.obs;
   final medications = <Medication>[].obs;
   final errorMessage = "".obs;
   final isMedAdded = false.obs;
@@ -36,6 +38,16 @@ class HomeController extends GetxController {
     super.onInit();
 
     getMedications();
+    ever(medications, (list) {
+      categorizedMedications.value = <String, List<Medication>>{
+        'DAILY':
+            medications.where((med) => med.frequencyPeriod == 'Day').toList(),
+        'WEEKLY':
+            medications.where((med) => med.frequencyPeriod == 'Week').toList(),
+        'MONTHLY':
+            medications.where((med) => med.frequencyPeriod == 'Month').toList(),
+      };
+    });
   }
 
   void getMedications() async {
@@ -70,7 +82,70 @@ class HomeController extends GetxController {
       },
       (_) {
         isMedAdded.value = true;
-        Get.snackbar('Success', 'You have successfully added the medication');
+        // Get.snackbar('Success', 'You have successfully added the medication');
+        Get.defaultDialog(title: 'Success');
+        getMedications();
+      },
+    );
+  }
+
+  void updateMedication(String medicationId, Medication med) async {
+    final failureOrList = await _editMedication(
+        Params(medicineID: medicationId, medication: med));
+
+    // Unfold the Either object to extract Failure or result.
+    failureOrList.fold(
+      (Failure fail) {
+        if (fail is ServerFailure) {
+          errorMessage.value = fail.message;
+          isMedAdded.value = false;
+          Get.snackbar('Error', 'Medication updating failed!');
+        }
+      },
+      (_) {
+        // Get.snackbar('Success', 'You have successfully updated the medication');
+        Get.defaultDialog(title: 'Success');
+        getMedications();
+      },
+    );
+  }
+
+  void confirmDeletion(String medicationID) async {
+    Get.defaultDialog(
+      title: 'Success',
+      backgroundColor: Colors.white,
+      content: Text('Do you want to delete this medication'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+            deleteMedication(medicationID);
+          },
+          child: Text('Delete'),
+        ),
+        TextButton(
+          onPressed: Get.back,
+          child: Text('Cancel'),
+        )
+      ],
+    );
+  }
+
+  void deleteMedication(String medicationId) async {
+    final failureOrList =
+        await _deleteMedication(Params(medicineID: medicationId));
+
+    // Unfold the Either object to extract Failure or result.
+    failureOrList.fold(
+      (Failure fail) {
+        if (fail is ServerFailure) {
+          errorMessage.value = fail.message;
+          isMedAdded.value = false;
+          Get.snackbar('Error', 'Medication deleting failed!');
+        }
+      },
+      (_) {
+        // Get.snackbar('Success', 'You have successfully deleted the medication');
         getMedications();
       },
     );
