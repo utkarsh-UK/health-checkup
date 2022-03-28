@@ -17,7 +17,7 @@ const images = [
   'assets/images/med5.png',
 ];
 
-class AddMedicationController extends GetxController {
+class MedicationController extends GetxController {
   final HomeController _homeController = Get.find<HomeController>();
 
   final formKey = GlobalKey<FormState>();
@@ -205,7 +205,6 @@ class AddMedicationController extends GetxController {
   }
 
   void setFrequencyPeriod(String value) {
-    print('$value');
     frequencyPeriod.value = value;
   }
 

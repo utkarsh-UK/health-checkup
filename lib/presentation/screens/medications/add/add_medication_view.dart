@@ -2,7 +2,7 @@ import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../../../../core/utils/helpers.dart';
-import 'add_medication_controller.dart';
+import '../medication_controller.dart';
 import '../widgets/dose_dropdown_inputs.dart';
 import '../widgets/dropdown_fields.dart';
 import '../widgets/horizontal_text_fields.dart';
@@ -17,8 +17,8 @@ import '../../../../core/utils/extensions.dart';
 typedef OrdinalNumber = Function(int count);
 
 class AddMedicationView extends StatelessWidget {
-  final AddMedicationController addMedicationController =
-      Get.find<AddMedicationController>();
+  final MedicationController addMedicationController =
+      Get.find<MedicationController>();
 
   AddMedicationView({Key? key}) : super(key: key);
 

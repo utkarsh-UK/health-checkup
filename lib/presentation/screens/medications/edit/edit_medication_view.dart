@@ -1,6 +1,6 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/utils/helpers.dart';
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/medication_controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/dose_dropdown_inputs.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/dropdown_fields.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/horizontal_text_fields.dart';
@@ -14,8 +14,8 @@ import 'package:get/get.dart';
 import '../../../../core/utils/extensions.dart';
 
 class EditMedicationView extends StatelessWidget {
-  final AddMedicationController addMedicationController =
-      Get.find<AddMedicationController>();
+  final MedicationController addMedicationController =
+      Get.find<MedicationController>();
 
   EditMedicationView({Key? key}) : super(key: key);
 

@@ -32,7 +32,7 @@ class DocumentModel extends Document {
         documentPath: json['document_path'],
         documentType: json['document_type'],
         documentSize: json['document_size'],
-        addedDate: DateTime.parse(json['added_date']),
+        addedDate: DateTime.parse(json['added_date'] ?? DateTime.now().toIso8601String()),
       );
 
   DocumentModel copyWith({
@@ -50,6 +50,15 @@ class DocumentModel extends Document {
         documentType: documentType ?? this.documentType,
         documentSize: documentSize ?? this.documentSize,
         addedDate: addedDate ?? this.addedDate,
+      );
+
+  factory DocumentModel.copyFromDocument(Document document) => DocumentModel(
+        documentID: document.documentID,
+        documentName: document.documentName,
+        documentPath: document.documentPath,
+        documentType: document.documentType,
+        documentSize: document.documentSize,
+        addedDate: document.addedDate,
       );
 
   Map<String, dynamic> toJson() => {

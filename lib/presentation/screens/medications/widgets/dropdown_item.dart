@@ -1,5 +1,5 @@
 import 'package:care_monitor/core/utils/helpers.dart';
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/medication_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -71,7 +71,7 @@ class _DropdownItemState extends State<DropdownItem> {
       onChanged: (value) {
         if (widget.isDoseHoursSelector) {
           final int doseCount = Helpers.fromFrequency(value!);
-          Get.find<AddMedicationController>().setNoOfDoses(doseCount);
+          Get.find<MedicationController>().setNoOfDoses(doseCount);
         }
 
         setState(() => selected = value!);

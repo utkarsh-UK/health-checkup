@@ -11,34 +11,32 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
   RemoteDatasourceImpl(this._service);
 
-  List<MedicationModel> readMedications() {
-    // try {
-    List<MedicationModel> medications = [];
-    if (_service.read(Constants.storageKey).toString().isNotEmpty) {
-      jsonDecode(_service.read(Constants.storageKey).toString())
-          .forEach((med) => medications.add(MedicationModel.fromJSON(med)));
-    }
+  List<MedicationModel> _readMedications() {
+    try {
+      List<MedicationModel> medications = [];
+      if (_service.read(Constants.medStorageKey).toString().isNotEmpty) {
+        jsonDecode(_service.read(Constants.medStorageKey).toString())
+            .forEach((med) => medications.add(MedicationModel.fromJSON(med)));
+      }
 
-    return medications;
-    // } catch (e) {
-    //   print(e);
-    //   throw Exception(e.toString());
-    // }
+      return medications;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
-  void writeMedications(List<MedicationModel> medications) {
-    // try {
-    _service.write(Constants.storageKey, jsonEncode(medications));
-    // } catch (e) {
-    //   print(e);
-    //   throw Exception(e.toString());
-    // }
+  void _writeMedications(List<MedicationModel> medications) {
+    try {
+      _service.write(Constants.medStorageKey, jsonEncode(medications));
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override
   Future<void> addMedication(MedicationModel medication) async {
-    // try {
-    /* **** Network Call if API is implemented
+    try {
+      /* **** Network Call if API is implemented
 
      final response = await http.post(
         BASE_URL + '/add-medication/:${medication.medicationID}',
@@ -51,16 +49,16 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       *** */
 
-    await Future.delayed(const Duration(milliseconds: 400));
+      await Future.delayed(const Duration(milliseconds: 400));
 
-    final medications = readMedications();
+      final medications = _readMedications();
 
-    medications.add(medication);
-    writeMedications(medications);
-    // } catch (e) {
-    //   // Loggers can be added here for analyzation.
-    //   throw ServerException(message: e.toString());
-    // }
+      medications.add(medication);
+      _writeMedications(medications);
+    } catch (e) {
+      // Loggers can be added here for analyzation.
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
@@ -80,10 +78,10 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       await Future.delayed(const Duration(milliseconds: 400));
 
-      final medications = readMedications();
+      final medications = _readMedications();
 
       medications.removeWhere((med) => med.medicationID == medicationID);
-      writeMedications(medications);
+      _writeMedications(medications);
 
       // Since data is deleted from local, assuming no issues and return true always.
       return true;
@@ -112,14 +110,14 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       await Future.delayed(const Duration(milliseconds: 600));
 
-      final medications = readMedications();
+      final medications = _readMedications();
 
       int oldIndex = medications.indexOf(
           medications.firstWhere((med) => med.medicationID == medicationID));
       medications.removeAt(oldIndex);
       medications.insert(oldIndex, medication);
 
-      writeMedications(medications);
+      _writeMedications(medications);
 
       // Since data is edited from local, assuming no errors and always return true.
       return true;
@@ -146,7 +144,7 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       await Future.delayed(const Duration(milliseconds: 500));
 
-      return readMedications();
+      return _readMedications();
     } catch (e) {
       // Loggers can be added here for analyzation.
       throw ServerException(message: e.toString());
@@ -170,7 +168,7 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       await Future.delayed(const Duration(milliseconds: 200));
 
-      final medications = readMedications();
+      final medications = _readMedications();
 
       return medications
           .where(

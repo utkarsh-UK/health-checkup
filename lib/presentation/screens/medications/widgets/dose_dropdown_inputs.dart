@@ -1,4 +1,4 @@
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/medication_controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/dropdown_item.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/meridian_selector.dart';
 import 'package:flutter/material.dart';
@@ -69,16 +69,16 @@ class DoseDropdownInput extends StatelessWidget {
   void _setMeridian(String meridian) {
     switch (index) {
       case 0:
-        Get.find<AddMedicationController>().setFirstMeridian(meridian);
+        Get.find<MedicationController>().setFirstMeridian(meridian);
         break;
       case 1:
-        Get.find<AddMedicationController>().setSecondMeridian(meridian);
+        Get.find<MedicationController>().setSecondMeridian(meridian);
         break;
       case 2:
-        Get.find<AddMedicationController>().setThirdMeridian(meridian);
+        Get.find<MedicationController>().setThirdMeridian(meridian);
         break;
       default:
-        Get.find<AddMedicationController>().setFirstMeridian(meridian);
+        Get.find<MedicationController>().setFirstMeridian(meridian);
     }
   }
 }

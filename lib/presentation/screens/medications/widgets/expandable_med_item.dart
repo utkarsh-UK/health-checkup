@@ -2,8 +2,8 @@ import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/utils/helpers.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
 import 'package:care_monitor/presentation/screens/home/controller.dart';
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_binding.dart';
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_controller.dart';
+import 'package:care_monitor/presentation/screens/medications/medication_binding.dart';
+import 'package:care_monitor/presentation/screens/medications/medication_controller.dart';
 import 'package:care_monitor/presentation/screens/medications/edit/edit_medication_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -186,11 +186,11 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
               onPressed: () {
                 Get.to(
                   () => EditMedicationView(),
-                  binding: AddMedicationBinding(),
+                  binding: MedicationBinding(),
                 );
 
                 Future.delayed(const Duration(milliseconds: 300), () {
-                  final controller = Get.find<AddMedicationController>();
+                  final controller = Get.find<MedicationController>();
                   controller.setCurrentMedication(med);
                 });
               },
