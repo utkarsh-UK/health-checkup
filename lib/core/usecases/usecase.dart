@@ -18,8 +18,15 @@ class Params extends Equatable {
   final Document? document;
   final String? medicineID;
   final String? documentID;
+  final String? medicationName;
 
-  const Params({this.medication, this.medicineID, this.document, this.documentID});
+  const Params({
+    this.medication,
+    this.medicineID,
+    this.document,
+    this.documentID,
+    this.medicationName,
+  });
 
   @override
   List<Object> get props => [];

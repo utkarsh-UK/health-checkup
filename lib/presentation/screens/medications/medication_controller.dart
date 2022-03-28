@@ -22,6 +22,7 @@ class MedicationController extends GetxController {
 
   final formKey = GlobalKey<FormState>();
 
+  final searchController = TextEditingController();
   final nameController = TextEditingController();
   final classController = TextEditingController();
   final brandController = TextEditingController();
@@ -76,6 +77,7 @@ class MedicationController extends GetxController {
   void onClose() {
     super.onClose();
 
+    searchController.dispose();
     nameController.dispose();
     classController.dispose();
     codeController.dispose();
@@ -190,6 +192,10 @@ class MedicationController extends GetxController {
     );
 
     _homeController.updateMedication(med.medicationID, med);
+  }
+
+  Future<List<String>> searchMedications(String name) {
+    return _homeController.searchMedication(name);
   }
 
   void setCurrentMedication(Medication? med) {

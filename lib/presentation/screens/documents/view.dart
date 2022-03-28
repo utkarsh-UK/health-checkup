@@ -3,6 +3,7 @@ import 'package:care_monitor/presentation/screens/documents/documents_controller
 import 'package:care_monitor/presentation/screens/documents/widgets/document_item.dart';
 import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/extensions.dart';
@@ -33,31 +34,43 @@ class DocumentsTab extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextButton.icon(
-            // onPressed: documentsController.setCurrentPickedFile,
-            onPressed: () => _showDocumentTypeBottomSheet(context, textTheme),
-            label: Text(
-              'Add Document',
-              style: textTheme.button!
-                  .copyWith(color: primaryColor, fontSize: 14.0.sp),
+      child: AnimationLimiter(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 700),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 70.0,
+              child: FadeInAnimation(
+                child: widget,
+              ),
             ),
-            icon: Icon(Icons.add, color: primaryColor, size: 8.0.wp),
+            children: [
+              TextButton.icon(
+                // onPressed: documentsController.setCurrentPickedFile,
+                onPressed: () =>
+                    _showDocumentTypeBottomSheet(context, textTheme),
+                label: Text(
+                  'Add Document',
+                  style: textTheme.button!
+                      .copyWith(color: primaryColor, fontSize: 14.0.sp),
+                ),
+                icon: Icon(Icons.add, color: primaryColor, size: 8.0.wp),
+              ),
+              Obx(
+                () => documentsController.savedDocuments.isEmpty
+                    ? const Center(child: Text('Empty Documents'))
+                    : ListView(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: documentsController.savedDocuments
+                            .map<Widget>((doc) => DocumentItem(doc))
+                            .toList(),
+                      ),
+              ),
+            ],
           ),
-          Obx(
-            () => documentsController.savedDocuments.isEmpty
-                ? const Center(child: Text('Empty Documents'))
-                : ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: documentsController.savedDocuments
-                        .map<Widget>((doc) => DocumentItem(doc))
-                        .toList(),
-                  ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -53,7 +53,7 @@ class MedicationRepositoryImpl extends MedicationRepository {
   }
 
   @override
-  Future<Either<Failure, List<Medication>>> searchMedication(
+  Future<Either<Failure, List<String>>> searchMedication(
       String medicationName) async {
     try {
       return Right(await _dataSource.searchMedication(medicationName));

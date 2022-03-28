@@ -15,7 +15,7 @@ abstract class RemoteDataSource {
   Future<bool> deleteMedication(String medicationID);
 
   /// Returns list of medicines matching name [medicationName].
-  Future<List<MedicationModel>> searchMedication(String medicationName);
+  Future<List<String>> searchMedication(String medicationName);
 
   /// Fetch all medications
   Future<List<MedicationModel>> fetchAllMedicines();

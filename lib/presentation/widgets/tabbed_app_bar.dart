@@ -1,6 +1,7 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/presentation/screens/medications/medication_binding.dart';
 import 'package:care_monitor/presentation/screens/medications/add/add_medication_view.dart';
+import 'package:care_monitor/presentation/screens/medications/search/search_medication_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/utils/extensions.dart';
@@ -66,7 +67,7 @@ class CustomTabbedAppBar extends StatelessWidget
           : [
               TextButton.icon(
                 onPressed: () => Get.to(
-                  () => AddMedicationView(),
+                  () => SearchMedicationView(),
                   binding: MedicationBinding(),
                 ),
                 label: Container(

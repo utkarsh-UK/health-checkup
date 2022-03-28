@@ -110,6 +110,30 @@ class HomeController extends GetxController {
     );
   }
 
+  Future<List<String>> searchMedication(String medicationName) async {
+    List<String> _meds = [];
+
+    final failureOrList =
+        await _searchMedication(Params(medicationName: medicationName));
+
+    // Unfold the Either object to extract Failure or result.
+    failureOrList.fold(
+      (Failure fail) {
+        if (fail is ServerFailure) {
+          errorMessage.value = fail.message;
+          isMedAdded.value = false;
+          Get.snackbar('Error', 'Medication searching failed!');
+        }
+      },
+      (list) {
+        // Get.snackbar('Success', 'You have successfully updated the medication');
+        _meds = list..sort(((a, b) => a.compareTo(b)));
+      },
+    );
+
+    return _meds;
+  }
+
   void confirmDeletion(String medicationID) async {
     Get.defaultDialog(
       title: 'Success',

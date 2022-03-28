@@ -3,6 +3,7 @@ import 'package:care_monitor/domain/entities/medication.dart';
 import 'package:care_monitor/presentation/screens/home/controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/expandable_med_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import '../../../core/utils/extensions.dart';
 
@@ -19,44 +20,57 @@ class MedicationsTab extends StatelessWidget {
       if (homeController.medications.isEmpty) {
         return const Center(child: Text('Empty'));
       } else {
-
         return SingleChildScrollView(
           key: UniqueKey(),
           physics: const ClampingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: homeController.categorizedMedications.keys
-                .toList()
-                .map<Widget>((period) => homeController.categorizedMedications[period]!.isEmpty
-                    ? const SizedBox.shrink()
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 4.0.wp,
-                              top: 6.0.wp,
-                              bottom: 0.5.wp,
-                            ),
-                            child: Text(
-                              period,
-                              style: textTheme.bodyText2!.copyWith(
-                                fontSize: 12.0.sp,
+          child: AnimationLimiter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: AnimationConfiguration.toStaggeredList(
+                duration: const Duration(milliseconds: 700),
+                childAnimationBuilder: (widget) => SlideAnimation(
+                  verticalOffset: 70.0,
+                  child: FadeInAnimation(
+                    child: widget,
+                  ),
+                ),
+                children: homeController.categorizedMedications.keys
+                    .toList()
+                    .map<Widget>((period) => homeController
+                            .categorizedMedications[period]!.isEmpty
+                        ? const SizedBox.shrink()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 4.0.wp,
+                                  top: 6.0.wp,
+                                  bottom: 0.5.wp,
+                                ),
+                                child: Text(
+                                  period,
+                                  style: textTheme.bodyText2!.copyWith(
+                                    fontSize: 12.0.sp,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: homeController.categorizedMedications[period]!.length,
-                            itemBuilder: (_, index) => MedItem(
-                              medication: homeController.categorizedMedications[period]![index],
-                              key: UniqueKey(),
-                            ),
-                          )
-                        ],
-                      ))
-                .toList(),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: homeController
+                                    .categorizedMedications[period]!.length,
+                                itemBuilder: (_, index) => MedItem(
+                                  medication: homeController
+                                      .categorizedMedications[period]![index],
+                                  key: UniqueKey(),
+                                ),
+                              )
+                            ],
+                          ))
+                    .toList(),
+              ),
+            ),
           ),
         );
       }

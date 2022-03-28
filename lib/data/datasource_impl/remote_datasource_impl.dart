@@ -152,7 +152,7 @@ class RemoteDatasourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future<List<MedicationModel>> searchMedication(String medicationName) async {
+  Future<List<String>> searchMedication(String medicationName) async {
     try {
       /* **** Network Call if API is implemented
 
@@ -168,12 +168,9 @@ class RemoteDatasourceImpl extends RemoteDataSource {
 
       await Future.delayed(const Duration(milliseconds: 200));
 
-      final medications = _readMedications();
-
-      return medications
+      return Constants.availableMeds
           .where(
-            (med) => med.medicationName.toLowerCase().contains(medicationName),
-          )
+              (med) => med.toLowerCase().contains(medicationName.toLowerCase()))
           .toList();
     } catch (e) {
       // Loggers can be added here for analyzation.

@@ -8,16 +8,16 @@ abstract class MedicationRepository {
 
   /// Updates [medication] having [medicationID]. Returns [true] if [medication]
   /// is updated successfully. False, otherwise.
-  Future<Either<Failure, bool>> editMedication(String medicationID, Medication medication);
+  Future<Either<Failure, bool>> editMedication(
+      String medicationID, Medication medication);
 
-  /// Deletes the medication with ID [medicationID]. Returns [true] 
+  /// Deletes the medication with ID [medicationID]. Returns [true]
   /// if medication is deleted successfully. False otherwise.
   Future<Either<Failure, bool>> deleteMedication(String medicationID);
 
   /// Returns list of medicines matching name [medicationName].
-  Future<Either<Failure, List<Medication>>> searchMedication(
-      String medicationName);
+  Future<Either<Failure, List<String>>> searchMedication(String medicationName);
 
-  /// Fetch all medications    
+  /// Fetch all medications
   Future<Either<Failure, List<Medication>>> fetchAllMedicines();
 }
