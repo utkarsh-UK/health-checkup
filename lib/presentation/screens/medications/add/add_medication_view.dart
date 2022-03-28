@@ -174,7 +174,7 @@ class AddMedicationView extends StatelessWidget {
                         },
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

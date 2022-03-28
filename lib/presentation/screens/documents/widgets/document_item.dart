@@ -43,16 +43,27 @@ class DocumentItem extends StatelessWidget {
         ),
         title: Text(
           document.documentName,
-          style: textTheme.bodyText2!.copyWith(fontSize: 14.0.sp),
+          style: textTheme.bodyText2!
+              .copyWith(fontSize: 16.0.sp, fontWeight: FontWeight.w400),
         ),
         subtitle: Column(
           children: [
             SizedBox(height: 1.0.wp),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   document.documentType.toUpperCase(),
                   style: textTheme.bodyText2!.copyWith(fontSize: 12.0.sp),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 2.0.wp),
+                  width: 6.0,
+                  height: 6.0,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    shape: BoxShape.circle,
+                  ),
                 ),
                 Text(
                   document.documentSize,
@@ -72,7 +83,7 @@ class DocumentItem extends StatelessWidget {
         trailing: IconButton(
             onPressed: () => Get.find<DocumentsController>()
                 .deleteDocument(document.documentID),
-            icon: Icon(Icons.delete_outline_outlined, size: 10.0.wp)),
+            icon: Icon(Icons.delete_outline_outlined, size: 8.0.wp)),
       ),
     );
   }
