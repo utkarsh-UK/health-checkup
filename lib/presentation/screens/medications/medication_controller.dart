@@ -104,7 +104,7 @@ class MedicationController extends GetxController {
     reasonController.clear();
   }
 
-  void addMedication() {
+  void addMedication(BuildContext context) {
     final String name = nameController.text.trim();
     final String drugClass = classController.text.trim();
     final String brand = brandController.text.trim();
@@ -146,10 +146,10 @@ class MedicationController extends GetxController {
       frequencyPeriod: frequencyPeriod.value,
     );
 
-    _homeController.addMedication(med);
+    _homeController.addMedication(med, context);
   }
 
-  void updateMedication() {
+  void updateMedication(BuildContext context) {
     final String name = nameController.text.trim();
     final String drugClass = classController.text.trim();
     final String brand = brandController.text.trim();
@@ -191,7 +191,7 @@ class MedicationController extends GetxController {
       dateUpdated: DateTime.now(),
     );
 
-    _homeController.updateMedication(med.medicationID, med);
+    _homeController.updateMedication(med.medicationID, med, context);
   }
 
   Future<List<String>> searchMedications(String name) {

@@ -1,3 +1,4 @@
+import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/usecases/usecase.dart';
 import 'package:care_monitor/core/utils/failure.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
@@ -6,6 +7,8 @@ import 'package:care_monitor/domain/usecases/medication/delete_medication.dart';
 import 'package:care_monitor/domain/usecases/medication/edit_medication.dart';
 import 'package:care_monitor/domain/usecases/medication/fetch_medications.dart';
 import 'package:care_monitor/domain/usecases/medication/search_medication.dart';
+import 'package:care_monitor/presentation/widgets/dialog_animation.dart';
+import 'package:care_monitor/presentation/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,7 +69,7 @@ class HomeController extends GetxController {
     );
   }
 
-  void addMedication(Medication med) async {
+  void addMedication(Medication med, BuildContext context) async {
     final failureOrList = await _addMedication(
       Params(medication: med),
     );
@@ -77,19 +80,30 @@ class HomeController extends GetxController {
         if (fail is ServerFailure) {
           errorMessage.value = fail.message;
           isMedAdded.value = false;
-          Get.snackbar('Error', 'Medication adding failed!');
+          showDialog(
+            context: context,
+            title: 'Failed',
+            message: 'Adding medication failed. Please try again later.',
+            displayIcon: Icons.close,
+          );
         }
       },
       (_) {
         isMedAdded.value = true;
-        // Get.snackbar('Success', 'You have successfully added the medication');
-        Get.defaultDialog(title: 'Success');
+        showDialog(
+          context: context,
+          title: 'Success',
+          message: 'You have successfully added the medication.',
+          displayIconColor: checkIconColor,
+          shouldShowActions: false,
+        );
         getMedications();
       },
     );
   }
 
-  void updateMedication(String medicationId, Medication med) async {
+  void updateMedication(
+      String medicationId, Medication med, BuildContext context) async {
     final failureOrList = await _editMedication(
         Params(medicineID: medicationId, medication: med));
 
@@ -99,12 +113,22 @@ class HomeController extends GetxController {
         if (fail is ServerFailure) {
           errorMessage.value = fail.message;
           isMedAdded.value = false;
-          Get.snackbar('Error', 'Medication updating failed!');
+          showDialog(
+            context: context,
+            title: 'Failed',
+            message: 'Updating medication failed. Please try again later.',
+            displayIcon: Icons.close,
+          );
         }
       },
       (_) {
-        // Get.snackbar('Success', 'You have successfully updated the medication');
-        Get.defaultDialog(title: 'Success');
+        showDialog(
+          context: context,
+          title: 'Success',
+          message: 'You have successfully edited the medication.',
+          displayIconColor: checkIconColor,
+          shouldShowActions: false,
+        );
         getMedications();
       },
     );
@@ -134,28 +158,23 @@ class HomeController extends GetxController {
     return _meds;
   }
 
-  void confirmDeletion(String medicationID) async {
-    Get.defaultDialog(
-      title: 'Success',
-      backgroundColor: Colors.white,
-      content: Text('Do you want to delete this medication'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Get.back();
-            deleteMedication(medicationID);
-          },
-          child: Text('Delete'),
-        ),
-        TextButton(
-          onPressed: Get.back,
-          child: Text('Cancel'),
-        )
-      ],
+  void confirmDeletion(String medicationID, BuildContext context) async {
+    showDialog(
+      context: context,
+      title: 'Delete Medication',
+      message: 'Do you want to delete this medication?',
+      shouldShowActions: true,
+      primaryBtnText: 'Delete',
+      secondaryBtnText: 'Cancel',
+      displayIcon: Icons.delete_outline_outlined,
+      onPrimaryBtnClick: () {
+        Get.back();
+        deleteMedication(medicationID, context);
+      },
     );
   }
 
-  void deleteMedication(String medicationId) async {
+  void deleteMedication(String medicationId, BuildContext context) async {
     final failureOrList =
         await _deleteMedication(Params(medicineID: medicationId));
 
@@ -164,14 +183,55 @@ class HomeController extends GetxController {
       (Failure fail) {
         if (fail is ServerFailure) {
           errorMessage.value = fail.message;
-          isMedAdded.value = false;
-          Get.snackbar('Error', 'Medication deleting failed!');
+          showDialog(
+            context: context,
+            title: 'Failed',
+            message: 'Deletion failed. Please try again later.',
+            displayIcon: Icons.close,
+          );
         }
       },
       (_) {
-        // Get.snackbar('Success', 'You have successfully deleted the medication');
+        showDialog(
+          context: context,
+          title: 'Success',
+          message: 'You have successfully deleted the medication.',
+          displayIconColor: checkIconColor,
+          shouldShowActions: false,
+        );
         getMedications();
       },
+    );
+  }
+
+  Future<T?> showDialog<T>({
+    required BuildContext context,
+    required String title,
+    required String message,
+    String? primaryBtnText,
+    String? secondaryBtnText,
+    IconData displayIcon = Icons.check,
+    Color displayIconColor = Colors.white,
+    bool shouldShowActions = false,
+    VoidCallback? onPrimaryBtnClick,
+  }) {
+    return showGeneralDialog(
+      transitionDuration: const Duration(milliseconds: 300),
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'label',
+      pageBuilder: (ctx, anim1, anim2) => MessageDialog(
+        title: title,
+        message: message,
+        shouldShowActions: shouldShowActions,
+        displayIconColor: displayIconColor,
+        displayIcon: displayIcon,
+        primaryBtnText: primaryBtnText,
+        secondaryBtnText: secondaryBtnText,
+        onPrimaryButtonClick: onPrimaryBtnClick,
+      ),
+      transitionBuilder: (context, anim1, anim2, child) =>
+          DialogAnimation(animationValue: anim1, child: child),
     );
   }
 }

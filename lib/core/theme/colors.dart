@@ -14,3 +14,4 @@ const Color textBackgroundColor = Color(0xFFC5D1DF);
 // const Color backgroundColor = Color(0xFFF2F2F2);
 const Color backgroundColor = Color(0xFFF4F5FB);
 const Color iconColor = Color(0xFF242D40);
+const Color checkIconColor = Color(0xFF27BF49);

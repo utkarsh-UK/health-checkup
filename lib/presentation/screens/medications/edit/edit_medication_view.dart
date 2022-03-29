@@ -9,6 +9,7 @@ import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_
 import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/extensions.dart';
@@ -41,155 +42,176 @@ class EditMedicationView extends StatelessWidget {
               child: Obx(
                 () => addMedicationController.medication.value == null
                     ? const Center(child: CircularProgressIndicator())
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TxtInputField(
-                            controller: addMedicationController.nameController,
-                            title: 'Medication name',
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              }
-                              return null;
-                            },
-                          ),
-                          TxtInputField(
-                            controller: addMedicationController.classController,
-                            title: 'Drug Class',
-                            backgroundColor: textBackgroundColor,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              }
-                              return null;
-                            },
-                          ),
-                          TxtInputField(
-                            controller: addMedicationController.brandController,
-                            title: 'Drug Brand',
-                            backgroundColor: textBackgroundColor,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              }
-                              return null;
-                            },
-                          ),
-                          TxtInputField(
-                            controller: addMedicationController.codeController,
-                            title: 'Drug Code (GCN)',
-                            backgroundColor: textBackgroundColor,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              } else if (!value.isNumericOnly) {
-                                return "Only digits are accepted";
-                              }
-
-                              return null;
-                            },
-                          ),
-                          HorizontalTextFields(
-                            leftTitle: 'Drug Type',
-                            rightTitle: 'Strength',
-                            leftInputController:
-                                addMedicationController.typeController,
-                            rightInputController:
-                                addMedicationController.strengthController,
-                            backgroundColor: textBackgroundColor,
-                          ),
-                          HorizontalTextFields(
-                            leftTitle: 'Form',
-                            rightTitle: 'Route of Administration',
-                            leftInputController:
-                                addMedicationController.formController,
-                            rightInputController:
-                                addMedicationController.routeController,
-                            backgroundColor: textBackgroundColor,
-                          ),
-                          TxtInputWithDropdown(
-                            title: 'Dose',
-                            doseType: 'dose_type',
-                            controller: addMedicationController.doseController,
-                            inputType: TextInputType.number,
-                            // selectedDropdownOption: addMedicationController.doseController.text,
-                            onChanged: (dose) {
-                              addMedicationController.setDoseType(dose!);
-                            },
-                            onSaved: (dose) {
-                              addMedicationController.setDoseType(dose!);
-                            },
-                          ),
-                          DropdownFields(
-                            title: 'Frequency',
-                            leftDoseType: 'frequency',
-                            rightDoseType: 'frequency_day',
-                            isDoseHoursSelector: true,
-                            selectedSecondDropdownOption:
-                                addMedicationController
-                                    .medication.value!.frequencyPeriod,
-                            selectedFirstDropdownOption: Helpers.getFrequency(
-                              addMedicationController
-                                  .medication.value!.frequency,
-                            ).toUpperCase(),
-                            onLeftDropChanged: (period) {
-                              final int freq = Helpers.fromFrequency(period!);
-                              addMedicationController.setNoOfDoses(freq);
-                            },
-                            onRightDropChanged: (period) {
-                              addMedicationController
-                                  .setFrequencyPeriod(period!);
-                            },
-                          ),
-                          Column(children: _getExtraDosesDropDown(textTheme)),
-                          TxtInputField(
-                            controller:
-                                addMedicationController.intructionsController,
-                            title: 'Instructions',
-                            capitalization: TextCapitalization.sentences,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              }
-
-                              return null;
-                            },
-                          ),
-                          TxtInputField(
-                            controller:
-                                addMedicationController.reasonController,
-                            title: 'Reason for Prescription:',
-                            capitalization: TextCapitalization.sentences,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "This field is required";
-                              }
-
-                              return null;
-                            },
-                          ),
-                          Row(
-                            children: [
-                              CustomOutlineButton(
-                                textColor: Colors.white,
-                                backgroundColor: primaryColor,
-                                buttonText: 'Save',
-                                onTap: _onSave,
+                    : AnimationLimiter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: AnimationConfiguration.toStaggeredList(
+                            delay: const Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 400),
+                            childAnimationBuilder: (widget) => SlideAnimation(
+                              horizontalOffset: 70.0,
+                              child: FadeInAnimation(
+                                child: widget,
                               ),
-                              SizedBox(width: 6.0.wp),
-                              CustomOutlineButton(
-                                backgroundColor: Colors.white,
-                                textColor: primaryColor,
-                                buttonText: 'Cancel',
-                                onTap: () {
-                                  addMedicationController.clearControllers();
-                                  Get.back();
+                            ),
+                            children: [
+                              TxtInputField(
+                                controller:
+                                    addMedicationController.nameController,
+                                title: 'Medication name',
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  }
+                                  return null;
                                 },
                               ),
+                              TxtInputField(
+                                controller:
+                                    addMedicationController.classController,
+                                title: 'Drug Class',
+                                backgroundColor: textBackgroundColor,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TxtInputField(
+                                controller:
+                                    addMedicationController.brandController,
+                                title: 'Drug Brand',
+                                backgroundColor: textBackgroundColor,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              TxtInputField(
+                                controller:
+                                    addMedicationController.codeController,
+                                title: 'Drug Code (GCN)',
+                                backgroundColor: textBackgroundColor,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  } else if (!value.isNumericOnly) {
+                                    return "Only digits are accepted";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                              HorizontalTextFields(
+                                leftTitle: 'Drug Type',
+                                rightTitle: 'Strength',
+                                leftInputController:
+                                    addMedicationController.typeController,
+                                rightInputController:
+                                    addMedicationController.strengthController,
+                                backgroundColor: textBackgroundColor,
+                              ),
+                              HorizontalTextFields(
+                                leftTitle: 'Form',
+                                rightTitle: 'Route of Administration',
+                                leftInputController:
+                                    addMedicationController.formController,
+                                rightInputController:
+                                    addMedicationController.routeController,
+                                backgroundColor: textBackgroundColor,
+                              ),
+                              TxtInputWithDropdown(
+                                title: 'Dose',
+                                doseType: 'dose_type',
+                                controller:
+                                    addMedicationController.doseController,
+                                inputType: TextInputType.number,
+                                // selectedDropdownOption: addMedicationController.doseController.text,
+                                onChanged: (dose) {
+                                  addMedicationController.setDoseType(dose!);
+                                },
+                                onSaved: (dose) {
+                                  addMedicationController.setDoseType(dose!);
+                                },
+                              ),
+                              DropdownFields(
+                                title: 'Frequency',
+                                leftDoseType: 'frequency',
+                                rightDoseType: 'frequency_day',
+                                isDoseHoursSelector: true,
+                                selectedSecondDropdownOption:
+                                    addMedicationController
+                                        .medication.value!.frequencyPeriod,
+                                selectedFirstDropdownOption:
+                                    Helpers.getFrequency(
+                                  addMedicationController
+                                      .medication.value!.frequency,
+                                ).toUpperCase(),
+                                onLeftDropChanged: (period) {
+                                  final int freq =
+                                      Helpers.fromFrequency(period!);
+                                  addMedicationController.setNoOfDoses(freq);
+                                },
+                                onRightDropChanged: (period) {
+                                  addMedicationController
+                                      .setFrequencyPeriod(period!);
+                                },
+                              ),
+                              Column(
+                                  children: _getExtraDosesDropDown(textTheme)),
+                              TxtInputField(
+                                controller: addMedicationController
+                                    .intructionsController,
+                                title: 'Instructions',
+                                capitalization: TextCapitalization.sentences,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                              TxtInputField(
+                                controller:
+                                    addMedicationController.reasonController,
+                                title: 'Reason for Prescription:',
+                                capitalization: TextCapitalization.sentences,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "This field is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                              Row(
+                                children: [
+                                  CustomOutlineButton(
+                                    textColor: Colors.white,
+                                    backgroundColor: primaryColor,
+                                    buttonText: 'Save',
+                                    onTap: () => _onSave(context),
+                                  ),
+                                  SizedBox(width: 6.0.wp),
+                                  CustomOutlineButton(
+                                    backgroundColor: Colors.white,
+                                    textColor: primaryColor,
+                                    buttonText: 'Cancel',
+                                    onTap: () {
+                                      addMedicationController
+                                          .clearControllers();
+                                      Get.back();
+                                    },
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
               ),
             ),
@@ -225,10 +247,10 @@ class EditMedicationView extends StatelessWidget {
         .toList();
   }
 
-  void _onSave() {
+  void _onSave(BuildContext context) {
     if (addMedicationController.formKey.currentState!.validate()) {
       // update medication to database
-      addMedicationController.updateMedication();
+      addMedicationController.updateMedication(context);
     }
   }
 }

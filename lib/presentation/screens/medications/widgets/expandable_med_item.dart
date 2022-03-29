@@ -217,7 +217,7 @@ class _ExpandableMedItemState extends State<ExpandableMedItem> {
             TextButton(
               onPressed: () {
                 final controller = Get.find<HomeController>();
-                controller.confirmDeletion(med.medicationID);
+                controller.confirmDeletion(med.medicationID, context);
               },
               child: Text(
                 'Delete',
