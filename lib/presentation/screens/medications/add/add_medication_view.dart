@@ -143,7 +143,7 @@ class AddMedicationView extends StatelessWidget {
                           addMedicationController.setFrequencyPeriod(period!);
                         },
                       ),
-                      Column(children: _getExtraDosesDropDown(textTheme)),
+                      ..._getExtraDosesDropDown(textTheme),
                       TxtInputField(
                         controller:
                             addMedicationController.intructionsController,
