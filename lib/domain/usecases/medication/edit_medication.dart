@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../repositories/medication_repository.dart';
 
+/// Usecase for editing saved medication.
+/// 
+/// Requires [medicationID, medication] to be edited.
 class EditMedication implements UseCase<bool, Params> {
   final MedicationRepository _repository;
 

@@ -86,7 +86,6 @@ class DocumentsController extends GetxController {
       );
 
       Get.to(() => AddDocumentView());
-      // saveDocument(currentDocument.value!);
     } else {
       Get.snackbar('Cancelled', 'You have cancelled file picker');
     }
@@ -162,7 +161,7 @@ class DocumentsController extends GetxController {
           message: 'You have successfully saved the document.',
           displayIconColor: checkIconColor,
           shouldShowActions: false,
-        );
+        ).then((_) => Get.back());
         getDocuments();
       },
     );

@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../repositories/document_repository.dart';
 
+/// Usecase for deleting saved document.
+/// 
+/// Requires [documentID] to be deleted.
 class DeleteDocument implements UseCase<void, Params> {
   final DocumentRepository _repository;
 

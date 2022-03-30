@@ -42,6 +42,7 @@ class AddDocumentView extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  // document name input
                   TxtInputField(
                     controller: documentsController.nameController,
                     title: 'Document Name',
@@ -53,6 +54,7 @@ class AddDocumentView extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 10.0.wp),
+                  // document image with default name & size
                   Row(
                     children: [
                       Stack(
@@ -92,28 +94,37 @@ class AddDocumentView extends StatelessWidget {
                         ],
                       ),
                       SizedBox(width: 5.0.wp),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: documentsController
-                                  .currentDocument.value!.documentName,
-                              style: textTheme.headline6!.copyWith(
-                                fontSize: 16.0.sp,
+                      Flexible(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: documentsController.currentDocument.value!
+                                            .documentName.length >
+                                        15
+                                    ? documentsController
+                                        .currentDocument.value!.documentName
+                                        .substring(0, 15)
+                                    : documentsController
+                                        .currentDocument.value!.documentName,
+                                style: textTheme.headline6!.copyWith(
+                                  fontSize: 16.0.sp,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text:
-                                  '\n${documentsController.currentDocument.value!.documentSize}',
-                              style: textTheme.bodyText2!
-                                  .copyWith(fontSize: 14.0.sp, height: 1.5),
-                            ),
-                          ],
+                              TextSpan(
+                                text:
+                                    '\n${documentsController.currentDocument.value!.documentSize}',
+                                style: textTheme.bodyText2!
+                                    .copyWith(fontSize: 14.0.sp, height: 1.5),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 10.0.wp),
+                  // action buttons
                   Row(
                     children: [
                       CustomOutlineButton(
@@ -143,6 +154,9 @@ class AddDocumentView extends StatelessWidget {
     );
   }
 
+  /// Saves current form and validates.
+  ///
+  /// If valid, proceed to save the document.
   void _onSave(BuildContext context) {
     if (documentsController.formKey.currentState!.validate()) {
       // add medication to database

@@ -6,6 +6,9 @@ import 'package:care_monitor/core/utils/failure.dart';
 import 'package:care_monitor/domain/repositories/document_repository.dart';
 import 'package:dartz/dartz.dart';
 
+/// Implments [DocumentRepository], connects usecases with remote and local data sources.
+/// 
+/// Requires [LocalDataSource] for reading and writing to device storage.
 class DocumentRepositoryImpl extends DocumentRepository {
   final LocalDataSource _localDataSource;
 

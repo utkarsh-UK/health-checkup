@@ -17,6 +17,7 @@ import 'package:care_monitor/domain/usecases/medication/fetch_medications.dart';
 import 'package:care_monitor/domain/usecases/medication/search_medication.dart';
 import 'package:get/get.dart';
 
+/// Injects dependencies.
 class DependencyInjector {
   void inject() {
     // data source

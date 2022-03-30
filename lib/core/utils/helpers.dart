@@ -1,4 +1,5 @@
 class Helpers {
+  /// Converts int [freq] to Ordinal String.
   static String getFrequency(int freq) {
     switch (freq) {
       case 1:
@@ -12,6 +13,7 @@ class Helpers {
     }
   }
 
+  /// Converts String [freq] to int.
   static int fromFrequency(String freq) {
     switch (freq) {
       case 'ONCE':

@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../repositories/medication_repository.dart';
 
+/// Usecase for adding medication.
+/// 
+/// Requires [medication] to be saved.
 class AddMedication implements UseCase<void, Params> {
   final MedicationRepository _repository;
 

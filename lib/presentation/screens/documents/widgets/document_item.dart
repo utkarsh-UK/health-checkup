@@ -43,7 +43,11 @@ class DocumentItem extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 1.0.wp),
             height: 35.0.wp,
             width: 20.0.wp,
-            child: Image.file(File(document.documentPath), fit: BoxFit.cover),
+            alignment: Alignment.center,
+            child: (document.documentType.toLowerCase() == 'jpg' ||
+                    document.documentType.toLowerCase() == 'png')
+                ? Image.file(File(document.documentPath), fit: BoxFit.cover)
+                : Icon(FontAwesome5.file_pdf, size: 15.0.wp),
           ),
           title: Text(
             document.documentName,
@@ -57,7 +61,7 @@ class DocumentItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    document.documentType.toUpperCase(),
+                    document.documentType,
                     style: textTheme.bodyText2!.copyWith(fontSize: 12.0.sp),
                   ),
                   Container(

@@ -6,11 +6,17 @@ import 'package:care_monitor/data/datasources/remote_data_source.dart';
 import 'package:care_monitor/data/models/medication_modal.dart';
 import 'package:care_monitor/data/services/storage_service.dart';
 
+/// Implments [RemoteDataSource], communicating with remote data such as API/Firebase.
+/// 
+/// Requires [StorageService] for reading and writing to device storage.
 class RemoteDatasourceImpl extends RemoteDataSource {
   final StorageService _service;
 
   RemoteDatasourceImpl(this._service);
 
+  /// Returns list of [MedicationModel] objects fetched from device storage.
+  /// 
+  /// Throws [Exception] in case of failure.
   List<MedicationModel> _readMedications() {
     try {
       List<MedicationModel> medications = [];
@@ -25,6 +31,9 @@ class RemoteDatasourceImpl extends RemoteDataSource {
     }
   }
 
+  /// Writes list of [MedicationModel] objects to device storage.
+  /// 
+  /// Throws [Exception] in case of failure.
   void _writeMedications(List<MedicationModel> medications) {
     try {
       _service.write(Constants.medStorageKey, jsonEncode(medications));

@@ -96,7 +96,10 @@ class HomeController extends GetxController {
           message: 'You have successfully added the medication.',
           displayIconColor: checkIconColor,
           shouldShowActions: false,
-        );
+        ).then((_) {
+          Get.back();
+          Get.back();
+        });
         getMedications();
       },
     );
@@ -128,7 +131,7 @@ class HomeController extends GetxController {
           message: 'You have successfully edited the medication.',
           displayIconColor: checkIconColor,
           shouldShowActions: false,
-        );
+        ).then((_) => Get.back());
         getMedications();
       },
     );
@@ -150,7 +153,6 @@ class HomeController extends GetxController {
         }
       },
       (list) {
-        // Get.snackbar('Success', 'You have successfully updated the medication');
         _meds = list..sort(((a, b) => a.compareTo(b)));
       },
     );

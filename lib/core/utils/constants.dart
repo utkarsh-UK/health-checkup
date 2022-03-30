@@ -1,6 +1,8 @@
+/// Stores constants for appwide usage.
 class Constants {
   static const String medStorageKey = 'MEDICATIONS';
   static const String docStorageKey = 'DOCUMENTS';
+
   static const List<String> availableMeds = [
     'Simvastatin',
     'Simtrigin Zx',

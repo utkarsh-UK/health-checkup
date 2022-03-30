@@ -4,6 +4,9 @@ import 'package:dartz/dartz.dart';
 
 import '../../repositories/document_repository.dart';
 
+/// Usecase for saving the document.
+/// 
+/// Requires [document] to be saved.
 class SaveDocument implements UseCase<String, Params> {
   final DocumentRepository _repository;
 

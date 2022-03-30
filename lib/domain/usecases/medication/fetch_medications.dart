@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../repositories/medication_repository.dart';
 
+/// Usecase for fetching all medications.
 class FetchMedication implements UseCase<List<Medication>, NoParams> {
   final MedicationRepository _repository;
 

@@ -6,13 +6,19 @@ import 'package:care_monitor/data/datasources/local_data_source.dart';
 import 'package:care_monitor/data/models/document_modal.dart';
 import 'package:care_monitor/data/services/storage_service.dart';
 
+/// Implments [LocalDataSource], communicating with local data such as device/cache.
+/// 
+/// Requires [StorageService] for reading and writing to device storage.
 class LocalDatasourceImpl extends LocalDataSource {
   final StorageService _service;
 
   LocalDatasourceImpl(this._service);
 
+  /// Returns list of [DocumentModel] objects fetched from device storage.
+  /// 
+  /// Throws [Exception] in case of failure.
   List<DocumentModel> _readDocuments() {
-    // try {
+    try {
       List<DocumentModel> documents = [];
       if (_service.read(Constants.docStorageKey).toString().isNotEmpty) {
         jsonDecode(_service.read(Constants.docStorageKey).toString())
@@ -20,17 +26,20 @@ class LocalDatasourceImpl extends LocalDataSource {
       }
 
       return documents;
-    // } catch (e) {
-    //   throw Exception(e.toString());
-    // }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
+  /// Writes list of [DocumentModel] objects in device storage.
+  /// 
+  /// Throws [Exception] in case of failure.
   void _writeDocuments(List<DocumentModel> documents) {
-    // try {
+    try {
       _service.write(Constants.docStorageKey, jsonEncode(documents));
-    // } catch (e) {
-    //   throw Exception(e.toString());
-    // }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override
@@ -58,16 +67,16 @@ class LocalDatasourceImpl extends LocalDataSource {
 
   @override
   Future<String> saveDocument(DocumentModel document) async {
-    // try {
+    try {
       final savedDocuments = await getDocuments();
 
       savedDocuments.add(document);
       _writeDocuments(savedDocuments);
 
       return document.documentPath;
-    // } catch (e) {
-    //   // Loggers can be added here for analyzation.
-    //   throw ServerException(message: e.toString());
-    // }
+    } catch (e) {
+      // Loggers can be added here for analyzation.
+      throw ServerException(message: e.toString());
+    }
   }
 }

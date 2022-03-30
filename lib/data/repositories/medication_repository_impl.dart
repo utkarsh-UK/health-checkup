@@ -6,6 +6,9 @@ import 'package:care_monitor/core/utils/failure.dart';
 import 'package:care_monitor/domain/repositories/medication_repository.dart';
 import 'package:dartz/dartz.dart';
 
+/// Implments [MedicationRepository], connects usecases with remote and local data sources.
+/// 
+/// Requires [RemoteDataSource] for reading and writing to device storage.
 class MedicationRepositoryImpl extends MedicationRepository {
   final RemoteDataSource _dataSource;
 
