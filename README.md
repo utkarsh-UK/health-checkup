@@ -2,15 +2,19 @@
 
 A flutter application for monitroing health remotely.
 
-[![Watch the video]](https://drive.google.com/file/d/1EQSOOdKvbISPVkjplKBDRtFKtti3U2TA/view?usp=sharinghttps://drive.google.com/file/d/1EQSOOdKvbISPVkjplKBDRtFKtti3U2TA/view?usp=sharing)
+[![Watch the video]](https://drive.google.com/file/d/13PR5eAa7k2wE-sb8qAu4u00KvXd6tgGg/view?usp=sharing)
 
-<img src="resources/screenshots/home.jpg" height="300px" width="150px" alt="Home Screen">
+<img src="resources/screenshots/home.jpg" height="200px" width="100px" alt="Home Screen">
 
-<img src="resources/screenshots/search.jpg" height="300px" width="150px" alt="Search Screen">
+<img src="resources/screenshots/add-med.jpg" height="200px" width="100px" alt="Search Screen">
 
-<img src="resources/screenshots/book-detail.jpg" height="300px" width="150px" alt="Book Detail Screen">
+<img src="resources/screenshots/med-details.jpg" height="200px" width="100px" alt="Book Detail Screen">
 
-<img src="resources/screenshots/book-saved.jpg" height="300px" width="150px" alt="Book Saved Screen">
+<img src="resources/screenshots/med-edit-delete.jpg" height="200px" width="100px" alt="Book Saved Screen">
+
+<img src="resources/screenshots/doc-add-options.jpg" height="200px" width="100px" alt="Book Saved Screen">
+
+<img src="resources/screenshots/doc-view-details.jpg" height="200px" width="100px" alt="Book Saved Screen">
 
 
 #### Features: 
