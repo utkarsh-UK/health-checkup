@@ -8,7 +8,20 @@ class ProfileTab extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: Colors.cyanAccent,
+      color: const Color(0xFFE4AEC5),
+      alignment: Alignment.center,
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.0),
+        child: Text(
+          'The professionals must set a good example.',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }

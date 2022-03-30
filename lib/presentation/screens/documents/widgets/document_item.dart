@@ -61,7 +61,7 @@ class DocumentItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    document.documentType,
+                    document.documentType.toUpperCase(),
                     style: textTheme.bodyText2!.copyWith(fontSize: 12.0.sp),
                   ),
                   Container(
@@ -91,7 +91,7 @@ class DocumentItem extends StatelessWidget {
           trailing: IconButton(
             onPressed: () => Get.find<DocumentsController>()
                 .confirmDeletion(document.documentID, context),
-            icon: Icon(FontAwesome5.trash_alt, size: 8.0.wp),
+            icon: Icon(FontAwesome5.trash_alt, size: 6.0.wp),
           ),
         ),
       ),

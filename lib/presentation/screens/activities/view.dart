@@ -8,7 +8,21 @@ class ActivitiesTab extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: Colors.amber,
+      // color: const Color(0xFFFF6B6B),
+      color: const Color(0xFF42C2FF),
+      alignment: Alignment.center,
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.0),
+        child: Text(
+          '"Activity becomes creative when the doer cares about doing it right or better."',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:care_monitor/presentation/widgets/bottom_nav_bar.dart';
 import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/extensions.dart';
@@ -69,25 +70,38 @@ class AddDocumentView extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(2.0.wp),
-                              child: Image.file(
-                                documentsController.currentPickedFile.value!,
-                                fit: BoxFit.cover,
-                              ),
+                              child: (documentsController.currentDocument.value!
+                                              .documentType
+                                              .toLowerCase() ==
+                                          'jpg' ||
+                                      documentsController.currentDocument.value!
+                                              .documentType
+                                              .toLowerCase() ==
+                                          'png')
+                                  ? Image.file(
+                                      documentsController
+                                          .currentPickedFile.value!,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Icon(FontAwesome5.file_pdf, size: 20.0.wp),
                             ),
                           ),
                           Positioned(
                             top: -10.0.wp,
                             right: -5,
-                            child: Container(
-                              padding: EdgeInsets.all(3.0.wp),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.9),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.close,
-                                size: 6.0.wp,
-                                color: primaryColor,
+                            child: InkWell(
+                              onTap: Get.back,
+                              child: Container(
+                                padding: EdgeInsets.all(3.0.wp),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.9),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 6.0.wp,
+                                  color: primaryColor,
+                                ),
                               ),
                             ),
                           ),

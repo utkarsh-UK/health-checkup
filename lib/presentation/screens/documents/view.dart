@@ -5,6 +5,8 @@ import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:care_monitor/presentation/widgets/empty_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/extensions.dart';
@@ -12,15 +14,15 @@ import '../../../core/utils/extensions.dart';
 const List<Map<String, dynamic>> bottomSheetMenus = [
   {
     'name': 'Camera',
-    'icon': Icons.camera_alt,
+    'icon': FontAwesome.camera_alt,
   },
   {
     'name': 'Gallery',
-    'icon': Icons.photo,
+    'icon': FontAwesome5.image,
   },
   {
     'name': 'Document',
-    'icon': Icons.assignment,
+    'icon': FontAwesome5.file_alt,
   },
 ];
 
@@ -89,7 +91,7 @@ class DocumentsTab extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.black26.withOpacity(0.3),
+                color: Colors.black38.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(4.0.wp),
               ),
               child: ListView.separated(
