@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/core/usecases/usecase.dart';
 import 'package:care_monitor/core/utils/failure.dart';
 import 'package:care_monitor/domain/entities/document.dart';
@@ -8,9 +9,11 @@ import 'package:care_monitor/domain/usecases/document/fetch_documents.dart';
 import 'package:care_monitor/domain/usecases/document/save_document.dart';
 import 'package:care_monitor/presentation/screens/documents/add/add_document_view.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:care_monitor/presentation/widgets/message_dialog.dart';
+import 'package:care_monitor/presentation/widgets/dialog_animation.dart';
 
 import '../../../core/utils/extensions.dart';
 
@@ -102,6 +105,8 @@ class DocumentsController extends GetxController {
         documentSize: currentPickedFile.value!.lengthSync().sizeInHigherBytes,
         addedDate: DateTime.now(),
       );
+
+      Get.to(() => AddDocumentView());
     } else {
       Get.snackbar('Cancelled', 'You have cancelled image picker');
     }
@@ -114,7 +119,7 @@ class DocumentsController extends GetxController {
     failureOrList.fold(
       (Failure fail) {
         if (fail is ServerFailure) {
-          print(fail.message);
+          debugPrint(fail.message);
         }
       },
       (docList) {
@@ -123,7 +128,7 @@ class DocumentsController extends GetxController {
     );
   }
 
-  void saveDocument() async {
+  void saveDocument(BuildContext context) async {
     final oldDoc = currentDocument.value!;
 
     currentDocument.value = Document(
@@ -142,32 +147,67 @@ class DocumentsController extends GetxController {
     failureOrList.fold(
       (Failure fail) {
         if (fail is ServerFailure) {
-          print(fail.message);
           Get.snackbar('Error', 'Saving the document failed!');
+          showDialog(
+            context: context,
+            title: 'Success',
+            message: 'You have successfully saved the document.',
+          );
         }
       },
       (path) {
-        // Get.snackbar('Success', 'You have successfully updated the medication');
-        Get.defaultDialog(
-            title: 'Success', middleText: 'Document was saved to path $path');
+        showDialog(
+          context: context,
+          title: 'Success',
+          message: 'You have successfully saved the document.',
+          displayIconColor: checkIconColor,
+          shouldShowActions: false,
+        );
         getDocuments();
       },
     );
   }
 
-  void deleteDocument(String documentID) async {
+  
+  void confirmDeletion(String documentID, BuildContext context) async {
+    showDialog(
+      context: context,
+      title: 'Delete Document',
+      message: 'Do you want to delete this document?',
+      shouldShowActions: true,
+      primaryBtnText: 'Delete',
+      secondaryBtnText: 'Cancel',
+      displayIcon: Icons.delete_outline_outlined,
+      onPrimaryBtnClick: () {
+        Get.back();
+        deleteDocument(documentID, context);
+      },
+    );
+  }
+
+  void deleteDocument(String documentID, BuildContext context) async {
     final failureOrList = await _deleteDocument(Params(documentID: documentID));
 
     // Unfold the Either object to extract Failure or result.
     failureOrList.fold(
       (Failure fail) {
         if (fail is ServerFailure) {
-          Get.snackbar('Error', 'Saving the document failed!');
+           showDialog(
+            context: context,
+            title: 'Failed',
+            message: 'Deletion failed. Please try again later.',
+            displayIcon: Icons.close,
+          );
         }
       },
       (_) {
-        // Get.snackbar('Success', 'You have successfully updated the medication');
-        Get.defaultDialog(title: 'Success', middleText: 'Document was deleted');
+       showDialog(
+          context: context,
+          title: 'Success',
+          message: 'You have successfully deleted the document.',
+          displayIconColor: checkIconColor,
+          shouldShowActions: false,
+        );
         getDocuments();
       },
     );
@@ -177,7 +217,34 @@ class DocumentsController extends GetxController {
     nameController.clear();
   }
 
-  void _clearFileCache() async {
-    await FilePicker.platform.clearTemporaryFiles();
+  Future<T?> showDialog<T>({
+    required BuildContext context,
+    required String title,
+    required String message,
+    String? primaryBtnText,
+    String? secondaryBtnText,
+    IconData displayIcon = Icons.check,
+    Color displayIconColor = Colors.white,
+    bool shouldShowActions = false,
+    VoidCallback? onPrimaryBtnClick,
+  }) {
+    return showGeneralDialog(
+      transitionDuration: const Duration(milliseconds: 300),
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'label',
+      pageBuilder: (ctx, anim1, anim2) => MessageDialog(
+        title: title,
+        message: message,
+        shouldShowActions: shouldShowActions,
+        displayIconColor: displayIconColor,
+        displayIcon: displayIcon,
+        primaryBtnText: primaryBtnText,
+        secondaryBtnText: secondaryBtnText,
+        onPrimaryButtonClick: onPrimaryBtnClick,
+      ),
+      transitionBuilder: (context, anim1, anim2, child) =>
+          DialogAnimation(animationValue: anim1, child: child),
+    );
   }
 }

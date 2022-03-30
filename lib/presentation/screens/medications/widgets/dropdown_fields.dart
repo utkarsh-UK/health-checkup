@@ -9,7 +9,8 @@ class DropdownFields extends StatelessWidget {
   final String rightDoseType;
   final String? selectedFirstDropdownOption;
   final String? selectedSecondDropdownOption;
-  final bool isDoseHoursSelector;
+  final bool isFirstDoseHoursSelector;
+  final bool isSecondDoseHoursSelector;
   final Function(String?) onLeftDropChanged;
   final Function(String?) onRightDropChanged;
 
@@ -22,7 +23,8 @@ class DropdownFields extends StatelessWidget {
     required this.onRightDropChanged,
     this.selectedFirstDropdownOption,
     this.selectedSecondDropdownOption,
-    this.isDoseHoursSelector = false,
+    this.isFirstDoseHoursSelector = false,
+    this.isSecondDoseHoursSelector = false,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class DropdownFields extends StatelessWidget {
               SizedBox(height: 2.0.wp),
               DropdownItem(
                 dropDownMenuType: leftDoseType,
-                isDoseHoursSelector: isDoseHoursSelector,
+                isDoseHoursSelector: isFirstDoseHoursSelector,
                 onDropdownChanged: onLeftDropChanged,
                 selectedOption: selectedFirstDropdownOption,
                 onSaved: (value) {},
@@ -57,7 +59,7 @@ class DropdownFields extends StatelessWidget {
               DropdownItem(
                 dropDownMenuType: rightDoseType,
                 onSaved: (value) {},
-                isDoseHoursSelector: isDoseHoursSelector,
+                isDoseHoursSelector: isSecondDoseHoursSelector,
                 onDropdownChanged: onRightDropChanged,
                 selectedOption: selectedSecondDropdownOption,
               )

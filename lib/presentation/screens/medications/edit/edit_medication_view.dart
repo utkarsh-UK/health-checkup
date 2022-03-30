@@ -141,7 +141,7 @@ class EditMedicationView extends StatelessWidget {
                                 title: 'Frequency',
                                 leftDoseType: 'frequency',
                                 rightDoseType: 'frequency_day',
-                                isDoseHoursSelector: true,
+                                isFirstDoseHoursSelector: true,
                                 selectedSecondDropdownOption:
                                     addMedicationController
                                         .medication.value!.frequencyPeriod,

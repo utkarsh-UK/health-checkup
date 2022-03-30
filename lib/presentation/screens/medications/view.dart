@@ -2,6 +2,7 @@ import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/domain/entities/medication.dart';
 import 'package:care_monitor/presentation/screens/home/controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/expandable_med_item.dart';
+import 'package:care_monitor/presentation/widgets/empty_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class MedicationsTab extends StatelessWidget {
 
     return Obx(() {
       if (homeController.medications.isEmpty) {
-        return const Center(child: Text('Empty'));
+        return const EmptyData('medications');
       } else {
         return SingleChildScrollView(
           key: UniqueKey(),

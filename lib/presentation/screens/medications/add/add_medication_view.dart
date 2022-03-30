@@ -134,16 +134,23 @@ class AddMedicationView extends StatelessWidget {
                         title: 'Frequency',
                         leftDoseType: 'frequency',
                         rightDoseType: 'frequency_day',
-                        isDoseHoursSelector: true,
-                        onLeftDropChanged: (period) {
-                          final int freq = Helpers.fromFrequency(period!);
+                        isFirstDoseHoursSelector: true,
+                        onLeftDropChanged: (dose) {
+                          final int freq = Helpers.fromFrequency(dose!);
                           addMedicationController.setNoOfDoses(freq);
                         },
                         onRightDropChanged: (period) {
                           addMedicationController.setFrequencyPeriod(period!);
                         },
                       ),
-                      ..._getExtraDosesDropDown(textTheme),
+                      Obx(
+                        () => Column(
+                          children: _getExtraDosesDropDown(
+                            textTheme,
+                            addMedicationController.noOfDoses.value,
+                          ),
+                        ),
+                      ),
                       TxtInputField(
                         controller:
                             addMedicationController.intructionsController,
@@ -200,10 +207,10 @@ class AddMedicationView extends StatelessWidget {
     );
   }
 
-  List<Widget> _getExtraDosesDropDown(TextTheme textTheme) {
+  List<Widget> _getExtraDosesDropDown(TextTheme textTheme, int count) {
     const OrdinalNumber = Helpers.getOrdinalNumbers;
 
-    return List<int>.generate(addMedicationController.noOfDoses.value, (_) => _)
+    return List<int>.generate(count, (_) => _)
         .map(
           (i) => DoseDropdownInput(
             title: 'Dosing Hours (${OrdinalNumber(i)} Dose)',

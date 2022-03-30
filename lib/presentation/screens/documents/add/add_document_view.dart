@@ -1,6 +1,7 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/presentation/screens/documents/documents_controller.dart';
 import 'package:care_monitor/presentation/screens/medications/widgets/txt_input_field.dart';
+import 'package:care_monitor/presentation/widgets/bottom_nav_bar.dart';
 import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class AddDocumentView extends StatelessWidget {
         },
         showTabBar: false,
       ),
+      bottomNavigationBar: const BottomNavBar(),
       body: GestureDetector(
         onTap: FocusScope.of(context).unfocus,
         child: SingleChildScrollView(
@@ -118,7 +120,7 @@ class AddDocumentView extends StatelessWidget {
                         textColor: Colors.white,
                         backgroundColor: primaryColor,
                         buttonText: 'Save',
-                        onTap: _onSave,
+                        onTap: () => _onSave(context),
                       ),
                       SizedBox(width: 6.0.wp),
                       CustomOutlineButton(
@@ -141,10 +143,10 @@ class AddDocumentView extends StatelessWidget {
     );
   }
 
-  void _onSave() {
+  void _onSave(BuildContext context) {
     if (documentsController.formKey.currentState!.validate()) {
       // add medication to database
-      documentsController.saveDocument();
+      documentsController.saveDocument(context);
     }
   }
 }

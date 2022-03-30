@@ -1,4 +1,3 @@
-import 'package:care_monitor/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/utils/extensions.dart';

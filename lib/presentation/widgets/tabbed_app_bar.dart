@@ -1,11 +1,7 @@
 import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/presentation/screens/medications/medication_binding.dart';
-import 'package:care_monitor/presentation/screens/medications/add/add_medication_view.dart';
 import 'package:care_monitor/presentation/screens/medications/search/search_medication_view.dart';
-import 'package:care_monitor/presentation/widgets/dialog_animation.dart';
-import 'package:care_monitor/presentation/widgets/message_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import '../../core/utils/extensions.dart';
 

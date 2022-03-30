@@ -1,9 +1,12 @@
 import 'package:care_monitor/domain/usecases/document/delete_document.dart';
 import 'package:care_monitor/domain/usecases/document/fetch_documents.dart';
 import 'package:care_monitor/domain/usecases/document/save_document.dart';
+import 'package:care_monitor/presentation/screens/activities/view.dart';
 import 'package:care_monitor/presentation/screens/documents/documents_controller.dart';
 import 'package:care_monitor/presentation/screens/documents/view.dart';
 import 'package:care_monitor/presentation/screens/medications/view.dart';
+import 'package:care_monitor/presentation/screens/profile/view.dart';
+import 'package:care_monitor/presentation/screens/resources/view.dart';
 import 'package:care_monitor/presentation/widgets/bottom_nav_bar.dart';
 import 'package:care_monitor/presentation/widgets/tabbed_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +32,9 @@ class HomeScreen extends StatelessWidget {
         bottomNavigationBar: const BottomNavBar(),
         body: TabBarView(
           children: [
-            const Center(child: Text('Activities')),
+            const ActivitiesTab(),
             MedicationsTab(),
-            const Center(child: Text('Resources')),
+            const ResourcesTab(),
             GetBuilder<DocumentsController>(
               init: DocumentsController(
                 saveDocument: _initDependencies().first,
@@ -40,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               ),
               builder: (controller) => DocumentsTab(),
             ),
-            const Center(child: Text('Profile')),
+            const ProfileTab(),
           ],
         ),
       ),

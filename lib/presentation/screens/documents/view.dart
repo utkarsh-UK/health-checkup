@@ -2,6 +2,7 @@ import 'package:care_monitor/core/theme/colors.dart';
 import 'package:care_monitor/presentation/screens/documents/documents_controller.dart';
 import 'package:care_monitor/presentation/screens/documents/widgets/document_item.dart';
 import 'package:care_monitor/presentation/widgets/custom_outline_button.dart';
+import 'package:care_monitor/presentation/widgets/empty_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class DocumentsTab extends StatelessWidget {
     return SingleChildScrollView(
       child: AnimationLimiter(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: AnimationConfiguration.toStaggeredList(
             duration: const Duration(milliseconds: 700),
             childAnimationBuilder: (widget) => SlideAnimation(
@@ -46,20 +47,22 @@ class DocumentsTab extends StatelessWidget {
               ),
             ),
             children: [
-              TextButton.icon(
-                // onPressed: documentsController.setCurrentPickedFile,
-                onPressed: () =>
-                    _showDocumentTypeBottomSheet(context, textTheme),
-                label: Text(
-                  'Add Document',
-                  style: textTheme.button!
-                      .copyWith(color: primaryColor, fontSize: 14.0.sp),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () =>
+                      _showDocumentTypeBottomSheet(context, textTheme),
+                  label: Text(
+                    'Add Document',
+                    style: textTheme.button!
+                        .copyWith(color: primaryColor, fontSize: 14.0.sp),
+                  ),
+                  icon: Icon(Icons.add, color: primaryColor, size: 8.0.wp),
                 ),
-                icon: Icon(Icons.add, color: primaryColor, size: 8.0.wp),
               ),
               Obx(
                 () => documentsController.savedDocuments.isEmpty
-                    ? const Center(child: Text('Empty Documents'))
+                    ? const EmptyData('saved documents', shouldExpand: false)
                     : ListView(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

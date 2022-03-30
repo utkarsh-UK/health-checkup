@@ -18,29 +18,55 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       selectedItemColor: primaryColor,
-      unselectedItemColor: Colors.grey.withOpacity(0.7),
+      unselectedItemColor: Colors.grey.withOpacity(0.8),
       showSelectedLabels: true,
       showUnselectedLabels: true,
       currentIndex: _currentSelectedIndex,
+      selectedLabelStyle: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 14.0,
+        height: 1.5,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 14.0,
+        height: 1.5,
+      ),
+      selectedFontSize: 14.0,
+      unselectedFontSize: 14.0,
+      selectedIconTheme: const IconThemeData(size: iconSize),
+      unselectedIconTheme: const IconThemeData(size: iconSize),
+      type: BottomNavigationBarType.fixed,
       onTap: (int i) => setState(() => _currentSelectedIndex = i),
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
           icon: Icon(FontAwesome.heartbeat, size: iconSize),
           label: 'Health',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(FontAwesome.calendar, size: iconSize),
           label: 'Calender',
         ),
         BottomNavigationBarItem(
-          icon: Icon(FontAwesome.plus, size: iconSize),
+          icon: Container(
+            padding: const EdgeInsets.all(12.0),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: primaryColor,
+            ),
+            child: const Icon(
+              Icons.add,
+              size: iconSize,
+              color: Colors.white,
+            ),
+          ),
           label: 'Activity',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(FontAwesome.user, size: iconSize),
           label: 'Team',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(FontAwesome.comment, size: iconSize),
           label: 'Chat',
         ),

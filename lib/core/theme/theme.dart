@@ -25,7 +25,7 @@ class ApplicationTheme {
             color: primaryTextColor,
           ),
           headline3: TextStyle(
-            fontSize: 24.0.sp,
+            fontSize: 22.0.sp,
             fontWeight: FontWeight.w700,
             color: primaryTextColor,
           ),
