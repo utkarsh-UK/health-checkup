@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.utkarshkore.care_monitor">
    <application
-        android:label="care_monitor"
+        android:label="CareMonitor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
